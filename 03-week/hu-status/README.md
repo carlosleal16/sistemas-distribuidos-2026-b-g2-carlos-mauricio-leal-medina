@@ -1,6 +1,4 @@
-<!-- HU-STATUS TEMPLATE - do NOT remove the <!-- ... --> markers or the table headers.
-     Your weekly grade is read AUTOMATICALLY from this file:
-       03-week/hu-status/README.md  (inside YOUR fork). English. -->
+
 
 # Weekly Status - Week 03
 
@@ -14,7 +12,7 @@
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| HU-XXX-001 |  |  |  |
+| HU-XXX-001 | NONE | NONE | NONE |
 
 ## 2. My individual contribution
 - Designed the domain model using Tactical DDD concepts such as entities, value objects, aggregates, aggregate roots, invariants, and domain events.
