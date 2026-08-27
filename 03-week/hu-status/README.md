@@ -42,6 +42,6 @@
 - [ ] No secrets; config via environment variables
 
 ## 6. Evidence links
-- [Sesion1-Sesion2](Week 3 Summary.png)
+- ![Sesion1-Sesion2](Week3Summary.png)
 
 - https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina.git
