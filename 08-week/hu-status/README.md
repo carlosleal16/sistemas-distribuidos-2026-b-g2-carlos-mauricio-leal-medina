@@ -11,6 +11,8 @@
 - SPRINT_GOAL: Turn the sprint mechanics already defined in `00-governance/agile-conventions.md` (WIP limit, PR-per-change, async daily sync, throughput) into practice, and turn the Phase 2/3 scope in `01-context/scope.md` into a story-mapped, dependency-sequenced MVP 2 backlog ready for Planning Poker estimation.
 <!-- CONFIG-END -->
 
+![resumen semana 8](08-week-session1-session2.jpg)
+
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
