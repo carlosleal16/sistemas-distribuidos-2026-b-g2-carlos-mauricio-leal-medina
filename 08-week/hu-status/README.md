@@ -14,7 +14,7 @@
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| HU-PROC-001 | As the team, we want a WIP-limited board with a PR for every change and an async daily sync, so that we can run the sprint like a real team instead of ad hoc work | doing | No commit yet this week in DOCS/WEEKLY/CODE (`git log --since=2026-09-17` is empty on all three repos as of 2026-09-21) — see Blockers |
+| HU-PROC-001 | As the team, we want a WIP-limited board with a PR for every change and an async daily sync, so that we can run the sprint like a real team instead of ad hoc work | doing | 2026-09-24: first concrete example of the "PR for every change" rule in DOCS — [PR #26](https://github.com/code-corhuila/barber-saas-docs/pull/26), reviewed twice by the course bot and merged (squash) to `main` at `4fa144f`. Board/WIP-limit sign-off is still pending — see Blockers |
 | HU-PROC-002 | As the team, we want a story map of the product and a sequenced cross-service dependency map, so that the MVP 2 backlog can be refined and estimated with Planning Poker | doing | Draft produced this week in Section 2 below, built from `01-context/scope.md` (Out of Scope §Future) and `09-microservices/service-catalog.md` (Inter-module communication) — not yet committed to DOCS, pending review |
 
 > No HU from `04-requirements/user-stories.md` (HU-AUTH-001 … HU-TENANT-001, MVP 1) was worked
@@ -66,6 +66,27 @@
   | `loyalty` | `notification` | **planned, not yet wired** (drift noted in `02-domain/domain-map.md`) | HTTP POST or event publish — flagged as a real gap, not just a future nice-to-have |
   | `auth` | all modules | `TenantContext` (ThreadLocal) | JWT propagation via HTTP header |
 
+- **Session 2 (2026-09-24) — individual API contract contribution:** the professor published a
+  reference API contract (`08-week/02-session/spec/api-contract.md`, synced into this fork the
+  same day) and asked each of the 4 teammates for their own PR to DOCS's `07-api/`. Before
+  writing anything, checked the 4 open DOCS PRs and all remote branches — none touched
+  `contracts/openapi/appointment-service.yaml`, the file didn't exist yet, and `Appointment` is
+  the richest bounded context in `02-domain/entities-and-rules.md` (6 states, invariants
+  `INV-APPT-001`–`005`) without any contract. Wrote
+  `07-api/contracts/openapi/appointment-service.yaml`: CRUD + the 5 state-transition endpoints
+  (`confirm`/`start`/`complete`/`cancel`/`no-show`), each invariant cited by ID in the error
+  response that enforces it, reusing `_shared.yaml` for pagination/errors/`bearerAuth` instead
+  of duplicating a schema. Followed the ecosystem's SPEC→PLAN→HANDOFF cycle as `SPEC-010`, with
+  6 verifiable acceptance criteria checked one by one before committing.
+
+  **[PR #26](https://github.com/code-corhuila/barber-saas-docs/pull/26)** — 2 commits
+  (`13669bf` contract, `e7133bb` added decision IDs `DEC-APPT-01`/`DEC-APPT-02` for
+  traceability). The course review bot (`ariel5253`) reviewed both pushes and approved both
+  times; all 8 recommendations across the two rounds got a written response in the PR
+  (2 applied — traceability IDs, and one flagged issue that resolved itself when PR #16 merged
+  mid-review — the rest justified in writing, not skipped). Merged (squash) to `main` at
+  `4fa144f` on 2026-09-24, branch deleted.
+
 ## 3. Blockers and risks
 - **No measured velocity yet.** `agile-conventions.md` → Team velocity table has Sprint 1/2/3
   all empty. Session 2 asks for an MVP 2 scope "tied to your velocity" — that cannot honestly
@@ -88,21 +109,29 @@
   `04-requirements/user-stories.md` (new HUs, Story Points, Target Sprint columns).
 - Once Sprint 1 closes under the WIP limit, record its throughput and use that — not a guess —
   to commit the first realistic MVP 2 scope.
-- Open the first PR against DOCS or CODE under the new discipline, as a working example of
-  the "PR for every change" rule in practice.
+- ~~Open the first PR against DOCS or CODE under the new discipline~~ — done this week, ahead
+  of schedule ([PR #26](https://github.com/code-corhuila/barber-saas-docs/pull/26)). Next: the
+  other 3 teammates' own `07-api/` PRs are still open/in progress — watch for merges landing
+  ahead of mine that would require rebasing, and for `docs/api-contract-v1C` (Carolay) needing
+  an update against current `main` once she opens her PR.
 
 ## 5. Compliance self-check
-- [ ] Conventional Commits - `type(scope): summary`
-- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...)
-- [ ] Testable acceptance criteria
-- [ ] Tests added/updated (unit / integration)
-- [ ] DDD / hexagonal boundaries respected (domain has no I/O)
-- [ ] No secrets; config via environment variables
+- [x] Conventional Commits - `type(scope): summary` — both PR #26 commits (`docs(api): ...`)
+- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...) — N/A for
+      DOCS: this repo's documented branching exception is `docs/NNN-slug` → `main` directly, no
+      per-environment branches (`00-governance/branching-policy.md`)
+- [x] Testable acceptance criteria — SPEC-010's 6 CAs, each verified with a command/inspection
+      before committing (YAML validity, invariant citations, `_shared.yaml` reuse, no explicit
+      `barbershopId`, single-file diff)
+- [ ] Tests added/updated (unit / integration) — N/A, this PR is an OpenAPI contract (docs), not
+      application code
+- [ ] DDD / hexagonal boundaries respected (domain has no I/O) — N/A, same reason
+- [x] No secrets; config via environment variables — trivially true, contract file only
 
-> All unchecked, honestly: no code or docs were committed this week as of this delivery — the
-> work above (story map, dependency map, WIP proposal) exists only in this file, pending
-> review and the team's explicit authorization to commit/push. Nothing here touches code, so
-> tests / DDD boundaries / secrets checks don't apply yet either.
+> Updated 2026-09-24: earlier this week nothing had been committed yet; that changed with
+> [PR #26](https://github.com/code-corhuila/barber-saas-docs/pull/26) to DOCS (merged). The
+> story map / dependency map / WIP proposal from the planning session in Section 2 are still
+> pending the team's review and sign-off, not yet committed as adopted process.
 
 ## 6. Evidence links
 - `00-governance/agile-conventions.md` (DOCS) — sprint structure, ceremonies, estimation scale, empty velocity table
@@ -111,5 +140,7 @@
 - `04-requirements/user-stories.md` (DOCS) — MVP 1 HUs (HU-AUTH-001…HU-TENANT-001), Story Points/Target Sprint left blank pending real estimation
 - `01-context/scope.md` (DOCS) — source of every MVP 2 candidate story listed in Section 2
 - `09-microservices/service-catalog.md` (DOCS) — Inter-module communication table, source of the dependency map
+- [PR #26](https://github.com/code-corhuila/barber-saas-docs/pull/26) (DOCS, merged `4fa144f`) — `07-api/contracts/openapi/appointment-service.yaml`, this week's individual API contract contribution
+- `02-domain/entities-and-rules.md` (DOCS) — Appointment entity, states and `INV-APPT-001`–`005`, source of the invariants cited in the new contract
 - `08-week/hu-status/08-week-session1-session2.jpg` (this repo) — session summary infographic
 - ![resumen semana 8](08-week-session1-session2.jpg)
