@@ -5,33 +5,116 @@
 # Weekly Status - Week 09
 
 <!-- CONFIG-START - must match your profile repo (username/username) CONFIG -->
-- FULL_NAME:
-- GITHUB_USER:
-- TEAM:
-- SPRINT_GOAL:
+- FULL_NAME: Carlos Mauricio Leal Medina
+- GITHUB_USER: carlosleal16
+- TEAM: Barberssas
+- SPRINT_GOAL: Close the `07-api` part of `code-corhuila/barber-saas-docs#29` by aligning the shared API contract with Norma 2026-B (error codes, `traceId`, idempotency and correlation headers, pagination, money), and plan config hardening and a safe rollout for MVP 2 (`.env.example`, fail-fast startup validation, injected secrets, pre-commit secret scan, feature flags, canary + rollback).
 <!-- CONFIG-END -->
 
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| HU-XXX-001 |  |  |  |
+| HU-GOV-029 | As the team, we want `07-api` aligned with the common contract of Norma 2026-B (numerals 5.3.5–5.3.9, 5.6), so that every `-api` and the `-workflow` share one error, header, pagination and money format from their first endpoint | done | [PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33), merged to `main` at [`cf4d983`](https://github.com/code-corhuila/barber-saas-docs/commit/cf4d983) on 2026-09-28, approved by `ariel5253`. Refs [`barber-saas-docs#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29) |
+| HU-GOV-029 (follow-up) | As the team, we want the shared contract and the service template in English, with every non-compliant error code mapped to its replacement, so that new service contracts start compliant and in the project language (ADR-001) | done | [PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34), merged to `main` at [`aeaad91`](https://github.com/code-corhuila/barber-saas-docs/commit/aeaad91) on 2026-09-28, approved by `ariel5253`. Applies the automated review of #33 |
+| HU-SEC-001 | As a super-admin operating the SaaS, I want every service to ship a `.env.example`, validate its required env vars at startup (fail fast), read secrets injected from a store (never from git) and block commits with secrets via a pre-commit scan, so that a missing or leaked secret is caught before it reaches any environment | todo | Pending: no service code exists yet (see Blockers) |
+| HU-SEC-002 | As an admin (barbershop owner), I want a new MVP 2 capability to ship behind a feature flag (default OFF), so that it can be deployed dark and then released or turned off instantly without a redeploy | todo | Pending |
+| HU-SEC-003 | As the team, we want a secrets plan (owner + rotation), a feature-flag policy (naming, owner, removal date) and a canary + rollback plan for one MVP 2 feature, so that the MVP 2 release is rolled out safely and reversibly | todo | Pending |
+
+> HU-GOV-029 is issue [`barber-saas-docs#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29)
+> (align governance with the course norm). The `00-governance` part was done by Daniel Cerquera in
+> PR #30; my two PRs cover the `07-api` part. HU-SEC-001…003 are this week's session topics
+> (Session 1: hardening; Session 2: secure-config and rollout plan). They get updated as work lands.
 
 ## 2. My individual contribution
--
+- **[PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33): shared contract aligned with Norma 2026-B**
+  (branch `docs/015-api-common-contract`, 1 commit `8b48f82`, 3 files, +257 / −26):
+  - `07-api/contracts/openapi/_shared.yaml` bumped to **1.1.0**. All changes are additive, so no
+    existing `$ref` breaks:
+    - A closed `ErrorCode` list (5.3.5). `ErrorResponse.traceId` is now **required** and equals
+      `X-Correlation-Id`.
+    - `PaginatedList` (`{data, meta}`), `Money` in integer minor units, and `Timestamp` as
+      RFC 3339 UTC.
+    - `IdempotencyKeyHeader` and `CorrelationIdHeader`, plus the response headers
+      `X-Correlation-Id`, `Location` and `Retry-After`.
+    - Reusable 422 (`InvalidStatusTransition`, `BusinessRuleViolation`), 429 and 503 responses.
+    - `bearerAuth` documents RS256 as the target of 5.3.7.
+  - `07-api/guidelines.md`: replaced the old "monolith, no api-gateway" versioning note with
+    ADR-004 plus the gateway as the single entry point. Also added the common-contract table and
+    aligned the status codes to the closed list (`409` → `422`).
+  - `07-api/open-questions.md`: OQ-01 (429) partially closed and OQ-02 fixed by 5.3.8. Opened
+    **OQ-04** (JWT signed with HS512 while the norm requires RS256, which needs an ADR) and
+    **OQ-05** (service contracts still use `409`, `type: number` money, no idempotency or
+    correlation headers, and servers that point at services instead of the gateway).
+  - Tested: `_shared.yaml` parses as YAML, every example carries `traceId` and a code from
+    `ErrorCode`, and the 27 `$ref`s from `appointment-`, `auth-` and `notification-service.yaml`
+    still resolve. The diff is 283 lines, under the 400-line limit (9.2).
+- **[PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34): follow-up applying the automated review of #33**
+  (branch `docs/016-api-english-translation`, 1 commit `c028732`, 4 files, +135 / −122):
+  - `_shared.yaml` and `_template-service.yaml` translated to English (ADR-001). The template
+    placeholders were renamed (`[Resource]`, `[requiredField1]`…), so new contracts start in the
+    project language (review recommendation 1).
+  - OQ-05 now maps each non-compliant error code in the current contracts to its 5.3.5
+    replacement: `INVALID_TRANSITION` → `INVALID_STATUS_TRANSITION`;
+    `SLOT_ALREADY_BOOKED` / `CANCELLATION_WINDOW_CLOSED` / `EMAIL_ALREADY_EXISTS` →
+    `BUSINESS_RULE_VIOLATION`; `INVALID_CREDENTIALS` → `UNAUTHORIZED` (recommendation 4).
+  - `guidelines.md`: ADR-004 is now a real link to its record on `main` (recommendation 3).
+    Recommendation 2 (issue scope) was answered in the PR: `00-governance` was covered by #30.
+  - Tested: no Spanish text left in the 4 files, all `$ref`s still resolve, and the diff is
+    257 lines (under 400).
+- **Session 1/2 groundwork (security & config).** Reviewed what DOCS already has, so the
+  hardening plan extends it instead of duplicating it:
+  - `00-governance/security-policy.md` forbids real values in `.env` / `.env.example` and names a
+    vault as the target store. It also records a **known gap**: a placeholder `JWT_SECRET`
+    committed in the prototype's `application.yml`. Rotation is described only for refresh tokens,
+    not for service secrets, and that is the gap the secrets plan must close.
+  - `10-devops/environments.md` already has the env-var naming convention, the per-environment
+    variable table and a rollback section, which the canary + rollback plan will reuse.
+  - No feature-flag policy exists anywhere in DOCS yet.
+  - This week's contract work links to hardening in two places: OQ-04 (HS512 → RS256) is a
+    secret/key-management decision, and the new `X-Correlation-Id` / `traceId` is what a canary
+    needs to compare error rates between versions before flipping a flag back off.
 
 ## 3. Blockers and risks
--
+- **No application code to harden yet.** The 29 evaluated repos in `code-corhuila`
+  (`barber-saas-*-{db,api,app}`, gateway, infra, front, worker, workflow) contain only their
+  initial files (2 tracked files each, verified with `git ls-files` on 2026-09-30). Startup
+  validation, a pre-commit scan and a real feature flag need a runnable service, so the first
+  hardening PR has to land together with (or right after) the first service skeleton.
+- **OQ-04 (HS512 vs RS256) is open and needs an ADR.** Until it is decided, the secrets plan
+  cannot fix whether the JWT signing material is a shared secret or a private/public key pair,
+  and the two have different owners and rotation procedures.
+- **OQ-05: the existing service contracts are not compliant yet.** `appointment-service.yaml`
+  still has `409`s, numeric money and Spanish descriptions (~100 lines). Fixing it did not fit
+  under the 400-line limit of #33/#34 and needs its own PR.
+- **Committed placeholder secret (known gap).** `security-policy.md` documents a placeholder
+  `JWT_SECRET` in the prototype. It is not a real credential, but new services must not copy
+  that pattern. Committing a real secret is a **grave fault (norm 13)**, so the pre-commit
+  scanner must be in place before any service gets real configuration.
 
 ## 4. Plan for next week
--
+- Open the PR that brings `appointment-service.yaml` in line with `_shared.yaml` 1.1.0
+  (OQ-05: error codes, `422`, `Money`, idempotency/correlation headers, English).
+- Propose the ADR that closes OQ-04 (RS256 signing key: owner, storage, rotation). It feeds
+  directly into the secrets plan of HU-SEC-003.
+- Persistence (per the course plan), then the MVP 2 release, using the canary + rollback plan
+  and the flag policy from HU-SEC-003.
 
 ## 5. Compliance self-check
-- [ ] Conventional Commits - `type(scope): summary`
-- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...)
-- [ ] Testable acceptance criteria
-- [ ] Tests added/updated (unit / integration)
-- [ ] DDD / hexagonal boundaries respected (domain has no I/O)
-- [ ] No secrets; config via environment variables
+- [x] Conventional Commits - `type(scope): summary`: `docs(api): align shared contract with course norm 2026-b` (#33), `docs(api): translate shared contract and service template to english` (#34)
+- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...): N/A for
+      DOCS. Its documented branching exception is `docs/NNN-slug` → `main` with no
+      per-environment branches (`00-governance/branching-policy.md`). Both PRs followed it.
+- [x] Testable acceptance criteria: each PR lists verifiable checks in "How it was tested" (YAML
+      parses, `traceId` + `ErrorCode` in every example, `$ref`s resolve, diff < 400 lines)
+- [ ] Tests added/updated (unit / integration): N/A, OpenAPI contract and docs only, no application code
+- [ ] DDD / hexagonal boundaries respected (domain has no I/O): N/A, same reason
+- [x] No secrets; config via environment variables: contract/docs files only, "No secrets" checked in both PRs
 
 ## 6. Evidence links
--
+- [PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33) (DOCS, merged `cf4d983`): `_shared.yaml` 1.1.0, `guidelines.md`, `open-questions.md` (OQ-04, OQ-05)
+- [PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34) (DOCS, merged `aeaad91`): English translation of `_shared.yaml` and `_template-service.yaml`, OQ-05 error-code mapping
+- [Issue #29](https://github.com/code-corhuila/barber-saas-docs/issues/29) (DOCS): align governance with the course norm and framework pillars (origin of HU-GOV-029)
+- `00-governance/security-policy.md` (DOCS): secret management rules, known `JWT_SECRET` gap, grave-fault note
+- `10-devops/environments.md` (DOCS): env-var naming, per-environment variables, deploy strategies and rollback
+- `09-week/hu-status/session1_session2.jpg` (this repo): session summary infographic
+- ![resumen semana 9](session1_session2.jpg)
