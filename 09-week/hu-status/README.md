@@ -16,7 +16,7 @@
 |---|---|---|---|
 | HU-GOV-029 | As the team, we want `07-api` aligned with the common contract of Norma 2026-B (numerals 5.3.5–5.3.9, 5.6), so that every `-api` and the `-workflow` share one error, header, pagination and money format from their first endpoint | done | [PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33), merged to `main` at [`cf4d983`](https://github.com/code-corhuila/barber-saas-docs/commit/cf4d983) on 2026-09-28, approved by `ariel5253`. Refs [`barber-saas-docs#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29) |
 | HU-GOV-029 (follow-up) | As the team, we want the shared contract and the service template in English, with every non-compliant error code mapped to its replacement, so that new service contracts start compliant and in the project language (ADR-001) | done | [PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34), merged to `main` at [`aeaad91`](https://github.com/code-corhuila/barber-saas-docs/commit/aeaad91) on 2026-09-28, approved by `ariel5253`. Applies the automated review of #33 |
-| HU-GOV-RED | As the team, we want the governance, architecture and data items the teacher's tracker marked red closed with project-specific content (ADR register, UUID decision, overview, deployment, data model, DoD/DoR, documentation rules), so that every section agrees with ADR-004 and with the real state of the 29 repositories | doing | [PR #49](https://github.com/code-corhuila/barber-saas-docs/pull/49), opened 2026-09-30, 6 commits, **awaiting approval from `ariel5253`**. Refs [`#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29), [`#31`](https://github.com/code-corhuila/barber-saas-docs/issues/31), [`#25`](https://github.com/code-corhuila/barber-saas-docs/issues/25) |
+| HU-GOV-RED | As the team, we want the governance, architecture and data items the teacher's tracker marked red closed with project-specific content (ADR register, UUID decision, overview, deployment, data model, DoD/DoR, documentation rules), so that every section agrees with ADR-004 and with the real state of the 29 repositories | done | [PR #49](https://github.com/code-corhuila/barber-saas-docs/pull/49), merged to `main` at [`ae43f2e`](https://github.com/code-corhuila/barber-saas-docs/commit/ae43f2e) on 2026-09-30, approved by `ariel5253`. Follow-up applying its review: [PR #50](https://github.com/code-corhuila/barber-saas-docs/pull/50), merged at [`a95c4da`](https://github.com/code-corhuila/barber-saas-docs/commit/a95c4da). Refs [`#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29), [`#31`](https://github.com/code-corhuila/barber-saas-docs/issues/31), [`#25`](https://github.com/code-corhuila/barber-saas-docs/issues/25) |
 | HU-SEC-001 | As a super-admin operating the SaaS, I want every service to ship a `.env.example`, validate its required env vars at startup (fail fast), read secrets injected from a store (never from git) and block commits with secrets via a pre-commit scan, so that a missing or leaked secret is caught before it reaches any environment | todo | Pending: no service code exists yet (see Blockers) |
 | HU-SEC-002 | As an admin (barbershop owner), I want a new MVP 2 capability to ship behind a feature flag (default OFF), so that it can be deployed dark and then released or turned off instantly without a redeploy | todo | Pending |
 | HU-SEC-003 | As the team, we want a secrets plan (owner + rotation), a feature-flag policy (naming, owner, removal date) and a canary + rollback plan for one MVP 2 feature, so that the MVP 2 release is rolled out safely and reversibly | todo | Pending |
@@ -91,11 +91,29 @@
       review rule) and a checklist for documentation stories. CI, coverage, integration and
       smoke criteria are listed as **not enforceable yet** instead of ticked.
     - **DoR:** the story owner signs G1.
-    - **documentation-rules:** languages per ADR-001, the real section layout, and owners per
-      section.
+    - **documentation-rules:** languages per ADR-001 and the real section layout. A "Who today"
+      column added to the owners table was reverted in #50: the team had already defined those
+      roles.
     - **microservices-documentation:** the 8 domains with their contract, data model and
       docs-folder state.
   - Rebased on `main` after #44–#48 merged mid-work, with no conflicts; `07-api/contracts/` untouched.
+  - Approved by `ariel5253` and squash-merged at `ae43f2e`. The review raised 4 recommendations,
+    each answered in writing on the PR.
+- **[PR #50](https://github.com/code-corhuila/barber-saas-docs/pull/50): applying the review of #49**
+  (branch `docs/red-items-review-followup`, 5 commits, 7 files, +62 / −26; merged at `a95c4da`):
+  - `bb50aa6`: the DoD cited `_ecosistema/SPEC-PLAN-PROMPT.md`, which no repository tracks. It
+    now defines gates G0–G5 and the `review-gate` rubric itself, and the DoR and
+    `agile-conventions.md` link to it (recommendation 1).
+  - `b589997`: ADR-010's references are anchored to the commits that wrote them (`b694d35`,
+    `f6321e2`) (recommendation 2).
+  - `ddfd6c2`: the bot read the deployment checklist as dropped. A `diff` showed it was only
+    renumbered from §10 to §11, unchanged, and the document now says so (recommendation 3).
+  - `0320aff`: the eight missing `09-microservices` folders are recorded as open and deferred,
+    not closed (recommendation 4).
+  - `ad05c71`: the owners-per-section table restored to its original content.
+  - Its own review raised 4 more recommendations. The diff figures in the description were
+    corrected; the other three were answered in writing on the PR (the anchor was verified,
+    the owners table keeps roles only by design).
 - **Session 1/2 groundwork (security & config).** Reviewed what DOCS already has, so the
   hardening plan extends it instead of duplicating it:
   - `00-governance/security-policy.md` forbids real values in `.env` / `.env.example` and names a
@@ -117,8 +135,6 @@
   initial files (2 tracked files each, verified with `git ls-files` on 2026-09-30). Startup
   validation, a pre-commit scan and a real feature flag need a runnable service, so the first
   hardening PR has to land together with (or right after) the first service skeleton.
-- **PR #49 is not merged yet.** Until `ariel5253` approves it, the red items it closes still
-  count as open on `main` ("what is not published does not exist").
 - **Open contradictions recorded in PR #49, not guessed:**
   - The seeded plan names disagree (Basico/Pro/Premium in `06-data` vs.
     Starter/Profesional/Premium in `01-context`); the team has to confirm which is current.
@@ -134,8 +150,7 @@
   scanner must be in place before any service gets real configuration.
 
 ## 4. Plan for next week
-- Get PR #49 approved and merged, and apply the review recommendations if the review asks for
-  changes.
+- ~~Get PR #49 approved and merged, and apply its review~~: done this week (#49 and #50 merged).
 - Write the secrets plan of HU-SEC-003 on top of `deployment.md` §6. Its first entry is the
   RS256 key pair: private key only in identity-auth, with an owner and rotation by `kid`.
 - Resolve the plan-names contradiction with the team, and propose the `chore/` fix for AT-008.
