@@ -173,7 +173,8 @@
 ## 6. Evidence links
 - [PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33) (DOCS, merged `cf4d983`): `_shared.yaml` 1.1.0, `guidelines.md`, `open-questions.md` (OQ-04, OQ-05)
 - [PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34) (DOCS, merged `aeaad91`): English translation of `_shared.yaml` and `_template-service.yaml`, OQ-05 error-code mapping
-- [PR #49](https://github.com/code-corhuila/barber-saas-docs/pull/49) (DOCS, open, awaiting approval): tracker red items in governance, architecture and data. 6 commits: `17c313b`, `0e3dc0c`, `9b0a9eb`, `5c49dcc`, `803f553`, `68e190b`
+- [PR #49](https://github.com/code-corhuila/barber-saas-docs/pull/49) (DOCS, merged `ae43f2e`): tracker red items in governance, architecture and data. Branch commits: `17c313b`, `0e3dc0c`, `9b0a9eb`, `5c49dcc`, `803f553`, `68e190b`
+- [PR #50](https://github.com/code-corhuila/barber-saas-docs/pull/50) (DOCS, merged `a95c4da`): applies the four recommendations of the #49 review and restores the original owners table
 - [Issue #29](https://github.com/code-corhuila/barber-saas-docs/issues/29) (DOCS): align governance with the course norm and framework pillars (origin of HU-GOV-029 and HU-GOV-RED)
 - [Issue #31](https://github.com/code-corhuila/barber-saas-docs/issues/31) (DOCS): ADRs required by the course norm
 - [Issue #25](https://github.com/code-corhuila/barber-saas-docs/issues/25) (DOCS): HU-APPT-003 walk-in appointments (data side: nullable `client_id`)
