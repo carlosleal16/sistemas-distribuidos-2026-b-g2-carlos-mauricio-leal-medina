@@ -114,10 +114,11 @@
   - Its own review raised 4 more recommendations. The diff figures in the description were
     corrected; the other three were answered in writing on the PR (the anchor was verified,
     the owners table keeps roles only by design).
-- **Session 2: TDD presentation** ([`09-week/02-session/tdd/`](../02-session/tdd/README.md)).
-  Presented in class what TDD is and how it applies to the 8 BarberSaaS domains:
-  - A 12-slide deck with speaker notes (`presentacion-tdd.html`) and an infographic
-    (`infografia-tdd.html` / `.png`).
+- **Session 2: TDD presentation.** Presented in class what TDD is and how it applies to the 8
+  BarberSaaS domains:
+  - A 12-slide deck with speaker notes ([`presentacion-tdd.html`](presentacion-tdd.html)) and an
+    infographic ([`infografia-tdd.html`](infografia-tdd.html) /
+    [`infografia-tdd.png`](infografia-tdd.png)).
   - Covers the red → green → refactor cycle and traceability HU → test → code → PR → CI (P.1).
     It also places each test type in a hexagonal `-api`: unit tests in the domain, mocks in the
     use cases, contract tests against `07-api` and integration tests against the `-db` schema.
@@ -190,6 +191,7 @@
 - [Issue #25](https://github.com/code-corhuila/barber-saas-docs/issues/25) (DOCS): HU-APPT-003 walk-in appointments (data side: nullable `client_id`)
 - `00-governance/security-policy.md` (DOCS): secret management rules, known `JWT_SECRET` gap, grave-fault note
 - `10-devops/environments.md` (DOCS): env-var naming, per-environment variables, deploy strategies and rollback
-- `09-week/02-session/tdd/` (this repo): TDD presentation and infographic for Session 2
+- `09-week/hu-status/presentacion-tdd.html`, `infografia-tdd.html`, `infografia-tdd.png` (this repo): TDD presentation and infographic for Session 2
+- ![infografía TDD](infografia-tdd.png)
 - `09-week/hu-status/session1_session2.jpg` (this repo): session summary infographic
 - ![resumen semana 9](session1_session2.jpg)
