@@ -8,7 +8,7 @@
 - FULL_NAME: Carlos Mauricio Leal Medina
 - GITHUB_USER: carlosleal16
 - TEAM: Barberssas
-- SPRINT_GOAL: Close the `07-api` part of `code-corhuila/barber-saas-docs#29` by aligning the shared API contract with Norma 2026-B (error codes, `traceId`, idempotency and correlation headers, pagination, money), and plan config hardening and a safe rollout for MVP 2 (`.env.example`, fail-fast startup validation, injected secrets, pre-commit secret scan, feature flags, canary + rollback).
+- SPRINT_GOAL: Close the `07-api` part of `code-corhuila/barber-saas-docs#29` (shared contract aligned with Norma 2026-B) and the tracker's red items, then migrate my two domains of the prototype to the Annex J architecture: `barbershop` and `schedule` each with its `-db` (Liquibase schema + roles), hexagonal `-api` (Java 21, Spring Boot 3.5, tests first) and Ionic React `-app`, routed by the gateway and included in the infra, all merged to `develop` with green CI.
 <!-- CONFIG-END -->
 
 ## 1. User stories worked this week
@@ -17,14 +17,20 @@
 | HU-GOV-029 | As the team, we want `07-api` aligned with the common contract of Norma 2026-B (numerals 5.3.5–5.3.9, 5.6), so that every `-api` and the `-workflow` share one error, header, pagination and money format from their first endpoint | done | [PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33), merged to `main` at [`cf4d983`](https://github.com/code-corhuila/barber-saas-docs/commit/cf4d983) on 2026-09-28, approved by `ariel5253`. Refs [`barber-saas-docs#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29) |
 | HU-GOV-029 (follow-up) | As the team, we want the shared contract and the service template in English, with every non-compliant error code mapped to its replacement, so that new service contracts start compliant and in the project language (ADR-001) | done | [PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34), merged to `main` at [`aeaad91`](https://github.com/code-corhuila/barber-saas-docs/commit/aeaad91) on 2026-09-28, approved by `ariel5253`. Applies the automated review of #33 |
 | HU-GOV-RED | As the team, we want the governance, architecture and data items the teacher's tracker marked red closed with project-specific content (ADR register, UUID decision, overview, deployment, data model, DoD/DoR, documentation rules), so that every section agrees with ADR-004 and with the real state of the 29 repositories | done | [PR #49](https://github.com/code-corhuila/barber-saas-docs/pull/49), merged to `main` at [`ae43f2e`](https://github.com/code-corhuila/barber-saas-docs/commit/ae43f2e) on 2026-09-30, approved by `ariel5253`. Follow-up applying its review: [PR #50](https://github.com/code-corhuila/barber-saas-docs/pull/50), merged at [`a95c4da`](https://github.com/code-corhuila/barber-saas-docs/commit/a95c4da). Refs [`#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29), [`#31`](https://github.com/code-corhuila/barber-saas-docs/issues/31), [`#25`](https://github.com/code-corhuila/barber-saas-docs/issues/25) |
-| HU-SEC-001 | As a super-admin operating the SaaS, I want every service to ship a `.env.example`, validate its required env vars at startup (fail fast), read secrets injected from a store (never from git) and block commits with secrets via a pre-commit scan, so that a missing or leaked secret is caught before it reaches any environment | todo | Pending: no service code exists yet (see Blockers) |
+| HU-TENANT-001 / HU-APPT-001 (barbershop domain) | As a client, I want to search barbershops and see their services and barbers, and as an admin (barbershop owner) I want to manage my services, barbers and specialties, with every read and write scoped to the barbershop in my token, so that the booking flow (HU-APPT-001) has a real catalog and tenants never see each other's data (HU-TENANT-001) | done (in `develop`) | `barbershop-db` [#2](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/2) [#3](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/3) [#4](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/4); `barbershop-api` [#2](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/2)–[#10](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/10), [#12](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/12)–[#15](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/15); `barbershop-app` [#2](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/2)–[#8](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/8). All merged 2026-10-02 with green CI. Refs [`barber-saas-docs#4`](https://github.com/code-corhuila/barber-saas-docs/issues/4), [`#13`](https://github.com/code-corhuila/barber-saas-docs/issues/13) |
+| HU-TENANT-001 / HU-APPT-001 (schedule domain) | As a barber, I want to set my weekly schedule (split shifts), days off and special hours, and as an admin I want to do it for any barber of my barbershop, so that a client only sees real free slots (availability) before booking | done (in `develop`) | `schedule-db` [#2](https://github.com/code-corhuila/barber-saas-schedule-db/pull/2) [#3](https://github.com/code-corhuila/barber-saas-schedule-db/pull/3) [#4](https://github.com/code-corhuila/barber-saas-schedule-db/pull/4); `schedule-api` [#2](https://github.com/code-corhuila/barber-saas-schedule-api/pull/2)–[#14](https://github.com/code-corhuila/barber-saas-schedule-api/pull/14); `schedule-app` [#2](https://github.com/code-corhuila/barber-saas-schedule-app/pull/2)–[#6](https://github.com/code-corhuila/barber-saas-schedule-app/pull/6). All merged 2026-10-02 with green CI. Refs [`barber-saas-docs#4`](https://github.com/code-corhuila/barber-saas-docs/issues/4), [`#13`](https://github.com/code-corhuila/barber-saas-docs/issues/13) |
+| HU-APPT-001 (shared points) | As the team, we want the barbershop and schedule domains reachable through the single gateway and started with the rest of the platform, so that the shell and `appointment-api` call them like any other domain | done (in `develop`) | `api-gateway` [#5](https://github.com/code-corhuila/barber-saas-api-gateway/pull/5) (own route file); `infra` [#6](https://github.com/code-corhuila/barber-saas-infra/pull/6), [#7](https://github.com/code-corhuila/barber-saas-infra/pull/7) (one include line each) |
+| HU-SEC-001 | As a super-admin operating the SaaS, I want every service to ship a `.env.example`, validate its required env vars at startup (fail fast), read secrets injected from a store (never from git) and block commits with secrets via a pre-commit scan, so that a missing or leaked secret is caught before it reaches any environment | doing | Partly done in my 4 runnable repos: `.env.example` with names and placeholders only ([`barbershop-api` `dd498b9`](https://github.com/code-corhuila/barber-saas-barbershop-api/commit/dd498b9)), `.gitignore` excluding `.env` and `*.pem`, every secret read from the environment, and only the RS256 **public** key in the services. Missing: fail-fast validation (an empty `DATABASE_URL` falls back to in-memory repositories on purpose) and the pre-commit secret scan |
 | HU-SEC-002 | As an admin (barbershop owner), I want a new MVP 2 capability to ship behind a feature flag (default OFF), so that it can be deployed dark and then released or turned off instantly without a redeploy | todo | Pending |
 | HU-SEC-003 | As the team, we want a secrets plan (owner + rotation), a feature-flag policy (naming, owner, removal date) and a canary + rollback plan for one MVP 2 feature, so that the MVP 2 release is rolled out safely and reversibly | todo | Pending |
 
 > HU-GOV-029 is issue [`barber-saas-docs#29`](https://github.com/code-corhuila/barber-saas-docs/issues/29)
 > (align governance with the course norm). The `00-governance` part was done by Daniel Cerquera in
 > PR #30; my two PRs cover the `07-api` part. HU-GOV-RED groups the red items of the teacher's
-> tracker that were assigned to me (governance, architecture, data). HU-SEC-001…003 are this
+> tracker that were assigned to me (governance, architecture, data). The three migration rows are my part of the
+> team's migration plan (`15-project-control/migration-work-split.md`, steps 2, 4 and 6: I own
+> `barbershop-*` and `schedule-*`). Their PRs reference HU-APPT-001 (#4, the booking flow they
+> unblock) and HU-TENANT-001 (#13, tenant isolation). HU-SEC-001…003 are this
 > week's session topics (Session 1: hardening; Session 2: secure-config and rollout plan). They get
 > updated as work lands.
 
@@ -114,6 +120,64 @@
   - Its own review raised 4 more recommendations. The diff figures in the description were
     corrected; the other three were answered in writing on the PR (the anchor was verified,
     the owners table keeps roles only by design).
+- **Migration of my two domains to the Annex J architecture (8 code repositories, 54 merged PRs).**
+  Following the team's work split (`15-project-control/migration-work-split.md`, PR #66 in DOCS),
+  I own `barbershop-{db,api,app}` and `schedule-{db,api,app}`. The prototype
+  (`code-corhuila/barber-saas`) was the base: its rules, flows, types and dark/gold design were
+  kept, and the structure changed (one hexagon per service, one schema per domain, RS256).
+  Every PR went `feat/…` → `develop`, merged with `--merge` only after CI was green, with one
+  commit per logical step and `Refs: code-corhuila/barber-saas-docs#NN`.
+  - **`-db` repos (Liquibase, 3 PRs each).** `barbershop-db` [#2–#4](https://github.com/code-corhuila/barber-saas-barbershop-db/pulls?q=is%3Apr+is%3Amerged)
+    and `schedule-db` [#2–#4](https://github.com/code-corhuila/barber-saas-schedule-db/pulls?q=is%3Apr+is%3Amerged):
+    - The template's DDL/DML/DCL/TCL layout with a master changelog, and only the
+      `<domain>-db-migrate` runner in `deploy/`, using its own control tables
+      (`databasechangelog_<domain>`, `databasechangeloglock_<domain>`), with no container or volume
+      of its own (ADR-011, one PostgreSQL instance in `barber-saas-infra`).
+    - Schemas `barbershop` (barbershop, service, barber_profile, barber_specialty, idempotency_key)
+      and `schedule` (barber_schedule, schedule_exception, idempotency_key), with `CHECK`
+      constraints taken from the contracts (e.g. `duration_minutes >= 5`, `price_cents >= 0`,
+      `end_time > start_time`, one exception per barber and date) and indexes per query.
+    - **No foreign keys across domains**: `schedule` keeps `barber_profile_id` as a plain UUID and
+      documents why (`6270796`). Roles `<domain>_reader` / `<domain>_writer` and
+      `GRANT <domain>_writer TO <domain>_app`; rollback scripts in `05_rollbacks/`.
+    - `db-ci.yml` rebuilds the schema from an empty database on every PR (`469a771`).
+  - **`-api` repos (Java 21, Spring Boot 3.5, 3 Maven modules).** `barbershop-api` (13 merged PRs,
+    48 main + 14 test classes) and `schedule-api` (13 merged PRs, 50 main + 15 test classes):
+    - `-core` has no Spring dependency: aggregates and invariants (barbershop trial rule, service,
+      barber profile and specialty; weekly schedule with split shifts, exceptions, availability),
+      the use cases and their ports. `-adapters` has HTTP and JDBC, `-app` is the composition root.
+    - **Tests first (TDD)**: each feature PR starts with a `test(…): specify …` commit and then
+      the `feat` commit that makes it pass (e.g. `f7adcc3` → `d39f750`, `786b4be` → `bc00247`).
+      CI runs `mvn -B verify` on every PR.
+    - The common contract of PR #33 implemented: the error envelope with `traceId`, `X-Correlation-Id`
+      reused or created and logged as JSON (ECS) on every request, `Idempotency-Key` stored in the
+      same transaction as the write, `{data, meta}` paging, strict body reading that rejects fields
+      the contract does not allow, and a liveness probe without a token.
+    - RS256 token verification with the public key only; the tenant comes **only** from the token
+      (another barbershop's resource answers `404`, HU-TENANT-001).
+    - The service connects as `<domain>_app`, never migrates, and has explicit pool limits,
+      statement timeout, connection timeouts and graceful shutdown.
+    - `schedule-api` reads the barber, durations and time zone from `barbershop-api` and the bookings
+      from `appointment-api` **through their APIs** (golden rule 8), forwarding the token and the
+      correlation id, with 2 s connect / 3 s request timeouts.
+    - Each repo has a `Dockerfile`, `deploy/compose.yml`, `.env.example` and a README with
+      "How to start it", "How to test it" and "What is missing".
+  - **`-app` repos (Ionic React 8, React 19, native federation).** `barbershop-app` (7 merged PRs) and
+    `schedule-app` (5 merged PRs), mounted by the `barber-saas-front` shell:
+    - They call the APIs **only through the shell's `apiClient`** (golden rule 9), with types copied
+      from the contracts and one idempotency key per user intent.
+    - `barbershop-app`: barbershop search and detail for clients; the owner's services, barbers and
+      specialties. `schedule-app`: week editor with split shifts, days off and special hours, for the
+      owner (any barber) and the barber (own week).
+    - Every view shows loading, error with retry, empty and data states; specs for the API calls,
+      forms, routes and loader run in CI with the type check and the build.
+  - **Shared points (one change each, after pull).** My own route file in `barber-saas-api-gateway`
+    ([#5](https://github.com/code-corhuila/barber-saas-api-gateway/pull/5): barbershop with its
+    anonymous catalog, and schedule), and the include lines in `barber-saas-infra`
+    ([#6](https://github.com/code-corhuila/barber-saas-infra/pull/6),
+    [#7](https://github.com/code-corhuila/barber-saas-infra/pull/7)). `CODEOWNERS` untouched.
+  - Supporting housekeeping: `barbershop-api` #11 was closed and split into #12 + #13 to keep the
+    PRs small; the `#1` PR of each repo (Claude Code instructions) was closed without merge.
 - **Session 2: TDD presentation.** Presented in class what TDD is and how it applies to the 8
   BarberSaaS domains:
   - A 12-slide deck with speaker notes ([`presentacion-tdd.html`](presentacion-tdd.html)) and an
@@ -141,47 +205,89 @@
     flag back off.
 
 ## 3. Blockers and risks
-- **No application code to harden yet.** The 29 evaluated repos in `code-corhuila`
-  (`barber-saas-*-{db,api,app}`, gateway, infra, front, worker, workflow) contain only their
-  initial files (2 tracked files each, verified with `git ls-files` on 2026-09-30). Startup
-  validation, a pre-commit scan and a real feature flag need a runnable service, so the first
-  hardening PR has to land together with (or right after) the first service skeleton.
+- **Everything is in Dev only.** My 54 PRs are merged to `develop`; `qa` and `main` of the 8
+  repos still point at the seed commit. Promoting them needs `qa/…` branches re-applied with
+  `git cherry-pick -x` (golden rules 3–4), never a merge between permanent branches.
+- **Booking is not end to end yet.** HU-APPT-001 needs `appointment-api` (Juan Pablo, step 5 of the
+  work split). Until it joins the platform, `APPOINTMENT_API_URL` is empty and `schedule-api`
+  availability does not subtract booked appointments (it warns at startup).
+- **Open contract questions that block parts of my services** (written in each README under
+  "What is missing", not guessed):
+  - **OQ-07**: a `CLIENT` token carries no barbershop, so tenant-scoped reads and availability
+    answer `403` to clients (they use the public catalog for now).
+  - **OQ-09**: with a client token `listAppointments` returns only that client's bookings; the
+    availability needs a service token or an internal operation in `appointment-service.yaml`.
+  - **OQ-10 / OQ-12**: creating a barbershop belongs to platform-admin + workflow (onboarding)
+    through a service-to-service interface that is not contracted yet.
+  - `auth-service.yaml` has no "read a user" operation, so a new barber profile's `userId` is not
+    yet verified to be a `BARBER` of the same barbershop.
+- **One PR over the size limit.** [`barbershop-api#3`](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/3) has 416 changed
+  lines without tests, above the 400 of 9.2. The rest stay under it (largest without tests: #8 with
+  358). The two `chore(app)` PRs show +4246 because of `package-lock.json`; without it they are 315.
 - **Open contradictions recorded in PR #49, not guessed:**
   - The seeded plan names disagree (Basico/Pro/Premium in `06-data` vs.
     Starter/Profesional/Premium in `01-context`); the team has to confirm which is current.
   - `09-microservices/service-catalog.md` still describes the monolith (AT-006).
-- **AT-008: the 29 code repositories name the wrong project.** Their seeded `README.md` says
-  "LMS Library" and links `library-docs`. Fixing it takes a `chore/` PR in each repository.
+- **AT-008: the code repositories name the wrong project.** Their seeded `README.md` says
+  "LMS Library". In my 8 repos the teacher's text is not touched; my own section goes below it.
 - *Update:* OQ-04 (HS512 → RS256) and OQ-05 (service contracts not compliant), listed here
   earlier this week, were both closed by Daniel Cerquera's
-  [PR #39](https://github.com/code-corhuila/barber-saas-docs/pull/39).
-- **Committed placeholder secret (known gap).** `security-policy.md` documents a placeholder
-  `JWT_SECRET` in the prototype. It is not a real credential, but new services must not copy
-  that pattern. Committing a real secret is a **grave fault (norm 13)**, so the pre-commit
-  scanner must be in place before any service gets real configuration.
+  [PR #39](https://github.com/code-corhuila/barber-saas-docs/pull/39); my services already verify
+  RS256.
+- **Secrets.** No secret is committed in my repos (`.env` and `*.pem` ignored, `.env.example` with
+  empty values). There is still no pre-commit scanner; committing a real secret is a **grave fault
+  (norm 13)**, so it is the first item of HU-SEC-001 for next week.
 
 ## 4. Plan for next week
-- ~~Get PR #49 approved and merged, and apply its review~~: done this week (#49 and #50 merged).
-- Write the secrets plan of HU-SEC-003 on top of `deployment.md` §6. Its first entry is the
-  RS256 key pair: private key only in identity-auth, with an owner and rotation by `kid`.
-- Resolve the plan-names contradiction with the team, and propose the `chore/` fix for AT-008.
-- Persistence (per the course plan), then the MVP 2 release, using the canary + rollback plan
-  and the flag policy from HU-SEC-003.
+- ~~Get PR #49 approved and merged, and apply its review~~: done (#49 and #50 merged).
+- ~~Migrate `barbershop` and `schedule` (db, api, app), gateway routes and infra include~~: done in
+  `develop` (54 PRs).
+- Promote my 8 repos from `develop` to `qa` with `qa/…` branches and `git cherry-pick -x`, once the
+  team runs the platform end to end with `appointment-api`.
+- Start my second block of the work split: the `notifications` domain (`notifications-db` on
+  MongoDB, `notifications-api` in Python 3.12 + FastAPI per ADR-012, `notifications-app` in Ionic
+  Angular), with the tests first again.
+- Finish HU-SEC-001 in my services: fail-fast validation of required variables outside the
+  in-memory mode and a pre-commit secret scan. Then HU-SEC-003 (secrets plan on top of
+  `deployment.md` §6: RS256 key pair, owner, rotation by `kid`).
+- Push OQ-07 and OQ-09 to a decision with the team so clients get availability.
 
 ## 5. Compliance self-check
-- [x] Conventional Commits - `type(scope): summary`: `docs(api): align shared contract with course norm 2026-b` (#33), `docs(api): translate shared contract and service template to english` (#34), and one `docs(architecture|data|governance): …` commit per task in #49
-- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...): N/A for
-      DOCS. Its documented branching exception is `docs/…` → `main` with no per-environment
-      branches (`00-governance/git-conventions.md`, category B). All three PRs followed it.
-- [x] Testable acceptance criteria: each PR lists verifiable checks in "How it was tested". For
-      #33/#34: YAML parses, `traceId` + `ErrorCode` in every example, `$ref`s resolve. For #49:
-      claims about the code repositories checked with `git ls-files`, contract facts checked in the
-      YAML. Every diff is under 400 lines.
-- [ ] Tests added/updated (unit / integration): N/A, OpenAPI contract and docs only, no application code
-- [ ] DDD / hexagonal boundaries respected (domain has no I/O): N/A, same reason
-- [x] No secrets; config via environment variables: contract/docs files only, "No secrets" checked in all three PRs
+- [x] Conventional Commits - `type(scope): summary`: DOCS `docs(api): align shared contract with
+      course norm 2026-b` (#33); code repos one commit per step, e.g. `test(http): specify barber
+      profiles and specialties over http` → `feat(http): expose barber profiles and their
+      specialties`, `feat(ddl): create schedule exception`, `perf(ddl): create indexes`
+- [x] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...): in the 8
+      code repos every change went through a `feat/…` / `chore/…` branch and a PR to `develop`,
+      merged with `--merge` after green CI; nothing was committed directly to `develop`, `qa` or
+      `main`. Promotion to `qa`/`main` is still pending (Blockers). DOCS keeps its documented
+      `docs/…` → `main` exception (`00-governance/git-conventions.md`, category B).
+- [x] Testable acceptance criteria: each PR lists its checks in "How it was tested"; HTTP tests
+      exercise the contract (envelope, `traceId`, `404` for another tenant, `422`, paging,
+      idempotent retries) and the `-db` CI rebuilds the schema from empty. One PR
+      (`barbershop-api#3`, 416 lines without tests) exceeds 400.
+- [x] Tests added/updated (unit / integration): 14 + 15 test classes in the two `-api` (domain, use
+      cases with fake ports, JDBC, HTTP, RS256), 5 + 4 spec files in the two `-app`, schema rebuild
+      in `db-ci.yml`; written before the implementation (`test(…)` commit first).
+- [x] DDD / hexagonal boundaries respected (domain has no I/O): `-core` has no Spring or JDBC
+      dependency; HTTP and persistence live in `-adapters`; the schema lives only in the `-db`
+      (golden rule 7); `schedule-api` reads other domains only through their APIs (golden rule 8);
+      the apps use only the shell client (golden rule 9).
+- [x] No secrets; config via environment variables: `.env.example` with placeholders, `.env` and
+      `*.pem` ignored, only the RS256 public key in the services, DB user `<domain>_app`.
 
 ## 6. Evidence links
+- **Code repositories (all merged to `develop`, CI green):**
+  - [`barber-saas-barbershop-db`](https://github.com/code-corhuila/barber-saas-barbershop-db/pulls?q=is%3Apr+is%3Amerged) PRs #2–#4: Liquibase structure, `barbershop` schema, roles and grants
+  - [`barber-saas-schedule-db`](https://github.com/code-corhuila/barber-saas-schedule-db/pulls?q=is%3Apr+is%3Amerged) PRs #2–#4: Liquibase structure, `schedule` schema, roles and grants
+  - [`barber-saas-barbershop-api`](https://github.com/code-corhuila/barber-saas-barbershop-api/pulls?q=is%3Apr+is%3Amerged) PRs #2–#10, #12–#15: domain, use cases, JDBC/in-memory adapters, HTTP contract, composition, deploy
+  - [`barber-saas-schedule-api`](https://github.com/code-corhuila/barber-saas-schedule-api/pulls?q=is%3Apr+is%3Amerged) PRs #2–#14: weekly schedule, exceptions, availability, API clients of barbershop/appointment, deploy
+  - [`barber-saas-barbershop-app`](https://github.com/code-corhuila/barber-saas-barbershop-app/pulls?q=is%3Apr+is%3Amerged) PRs #2–#8: Ionic React remote, catalog search/detail, owner's services, barbers and specialties
+  - [`barber-saas-schedule-app`](https://github.com/code-corhuila/barber-saas-schedule-app/pulls?q=is%3Apr+is%3Amerged) PRs #2–#6: Ionic React remote, week editor, days off and special hours
+  - [`barber-saas-api-gateway#5`](https://github.com/code-corhuila/barber-saas-api-gateway/pull/5): barbershop and schedule routes
+  - [`barber-saas-infra#6`](https://github.com/code-corhuila/barber-saas-infra/pull/6), [`#7`](https://github.com/code-corhuila/barber-saas-infra/pull/7): include barbershop and schedule in the platform
+- [Issue #4](https://github.com/code-corhuila/barber-saas-docs/issues/4) (DOCS): HU-APPT-001 book an appointment without double-booking
+- [Issue #13](https://github.com/code-corhuila/barber-saas-docs/issues/13) (DOCS): HU-TENANT-001 tenant data isolation
 - [PR #33](https://github.com/code-corhuila/barber-saas-docs/pull/33) (DOCS, merged `cf4d983`): `_shared.yaml` 1.1.0, `guidelines.md`, `open-questions.md` (OQ-04, OQ-05)
 - [PR #34](https://github.com/code-corhuila/barber-saas-docs/pull/34) (DOCS, merged `aeaad91`): English translation of `_shared.yaml` and `_template-service.yaml`, OQ-05 error-code mapping
 - [PR #49](https://github.com/code-corhuila/barber-saas-docs/pull/49) (DOCS, merged `ae43f2e`): tracker red items in governance, architecture and data. Branch commits: `17c313b`, `0e3dc0c`, `9b0a9eb`, `5c49dcc`, `803f553`, `68e190b`
