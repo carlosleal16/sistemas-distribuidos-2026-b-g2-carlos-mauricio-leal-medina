@@ -20,13 +20,14 @@
 | HU-AUTH-003 / HU-SADMIN-001 | As a future owner, I want my barbershop created by the onboarding saga, and as a super-admin I want to operate barbershops, so that both reach `barbershop-api` only through its internal operations | done (QA, release 2.0.0) | `barbershop-api` [#16](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/16) (create/remove for the saga), [#20](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/20) (platform-admin operations). Refs [`#7`](https://github.com/code-corhuila/barber-saas-docs/issues/7), [`#12`](https://github.com/code-corhuila/barber-saas-docs/issues/12) |
 | HU-APPT-001 | As a client, I want availability that subtracts the booked appointments, so that I can never book a taken slot | done (QA, release 2.0.0) | `schedule-api` [#15](https://github.com/code-corhuila/barber-saas-schedule-api/pull/15), [#16](https://github.com/code-corhuila/barber-saas-schedule-api/pull/16) (busy slots read from `appointment-api` with schedule's own service token). Refs [`#4`](https://github.com/code-corhuila/barber-saas-docs/issues/4) |
 | HU-SHOP-001-A / HU-SHOP-001-B | As an admin, I want to configure my service catalog and my barbers' weekly schedules from screens that are clear to use, so that the data the client sees is right | done (QA, release 2.0.0) | `barbershop-app` [#11](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/11), [#13](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/13); `schedule-app` [#8](https://github.com/code-corhuila/barber-saas-schedule-app/pull/8), [#10](https://github.com/code-corhuila/barber-saas-schedule-app/pull/10). Refs [`#67`](https://github.com/code-corhuila/barber-saas-docs/issues/67), [`#68`](https://github.com/code-corhuila/barber-saas-docs/issues/68) |
-| REL-2.0.0 | As the team, we want MVP 2 promoted from `develop` to `qa` and to `release.2.0.0` by re-application, with a CHANGELOG and a release pull request to `main`, so that the teacher can approve checkpoint 2 with a verifiable trail | doing (waiting for the teacher's approval on `main`) | 36 pull requests in my 9 repos, table in section 2. Refs [`#109`](https://github.com/code-corhuila/barber-saas-docs/issues/109) |
+| REL-2.0.0 | As the team, we want MVP 2 promoted from `develop` to `qa` and to `release.2.0.0` by re-application, with a CHANGELOG and a release pull request to `main`, so that the teacher can approve checkpoint 2 with a verifiable trail | done (Main, tag `v2.0.0`) | 36 pull requests in my 9 repos, table in section 2; the 9 release pull requests were approved by `ariel5253` and merged to `main` on 2026-10-09. Refs [`#109`](https://github.com/code-corhuila/barber-saas-docs/issues/109) |
 
 > The Status column says the environment each story reached (norm 16.7): "QA, release 2.0.0" means
 > its commits are in `qa` and in `release.2.0.0` with their `(cherry picked from commit …)` trail;
-> `main` waits for the teacher. The repository-rename chores of the week (`barber-saas-infra` →
-> `barber-saas-infra-postgres`, Barber Saas headers) reference
-> [`#59`](https://github.com/code-corhuila/barber-saas-docs/issues/59) and are not a story.
+> `main` received them through the release pull requests on 2026-10-09 (section 2). The
+> repository-rename chores of the week (`barber-saas-infra` → `barber-saas-infra-postgres`,
+> Barber Saas headers) reference [`#59`](https://github.com/code-corhuila/barber-saas-docs/issues/59)
+> and are not a story; they are listed in section 2.
 
 ## 2. My individual contribution
 - **Today (2026-10-08): the password-recovery e-mail, end to end (HU-AUTH-002).**
@@ -71,20 +72,23 @@
   3. **To `release.2.0.0`** (cut from `main`, filled from `hu-mvp2-release`): the same procedure
      from `qa`, with an identical tree.
   4. **To `main`**: release pull request with stories, scope, deployment, rollback and a trail
-     table showing the `qa` and the `develop` sha of every commit (norm 11.3). **Not merged**:
-     it waits for `ariel5253`.
+     table showing the `qa` and the `develop` sha of every commit (norm 11.3). `ariel5253`
+     approved the 9 of them, and I merged them (rebase and merge) on 2026-10-09 between 00:48
+     and 00:49. `main` has the same tree as `release.2.0.0`, no merge commit, and every new commit
+     carries its trail. Daniel Cerquera created the annotated tag `v2.0.0` on that commit and the
+     GitHub release `v2.0.0 — MVP 2 (corte 2)` in each repository (norm 11.5).
 
   | Repo | PR develop | PR qa | PR release | PR main | Commits promoted | Same tree | Trail OK |
   |---|---|---|---|---|---|---|---|
-  | barbershop-api | [#21](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/21) | [#22](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/22) | [#23](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/23) | [#24](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/24) open | 89 | yes | yes |
-  | barbershop-app | [#15](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/15) | [#16](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/16) | [#17](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/17) | [#18](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/18) open | 45 | yes | yes |
-  | barbershop-db | [#8](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/8) | [#9](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/9) | [#10](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/10) | [#11](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/11) open | 22 | yes | yes |
-  | schedule-api | [#19](https://github.com/code-corhuila/barber-saas-schedule-api/pull/19) | [#20](https://github.com/code-corhuila/barber-saas-schedule-api/pull/20) | [#21](https://github.com/code-corhuila/barber-saas-schedule-api/pull/21) | [#22](https://github.com/code-corhuila/barber-saas-schedule-api/pull/22) open | 75 | yes | yes |
-  | schedule-app | [#13](https://github.com/code-corhuila/barber-saas-schedule-app/pull/13) | [#14](https://github.com/code-corhuila/barber-saas-schedule-app/pull/14) | [#15](https://github.com/code-corhuila/barber-saas-schedule-app/pull/15) | [#16](https://github.com/code-corhuila/barber-saas-schedule-app/pull/16) open | 38 | yes | yes |
-  | schedule-db | [#7](https://github.com/code-corhuila/barber-saas-schedule-db/pull/7) | [#8](https://github.com/code-corhuila/barber-saas-schedule-db/pull/8) | [#9](https://github.com/code-corhuila/barber-saas-schedule-db/pull/9) | [#10](https://github.com/code-corhuila/barber-saas-schedule-db/pull/10) open | 20 | yes | yes |
-  | notifications-api | [#12](https://github.com/code-corhuila/barber-saas-notifications-api/pull/12) | [#13](https://github.com/code-corhuila/barber-saas-notifications-api/pull/13) | [#14](https://github.com/code-corhuila/barber-saas-notifications-api/pull/14) | [#15](https://github.com/code-corhuila/barber-saas-notifications-api/pull/15) open | 46 | yes | yes |
-  | notifications-app | [#6](https://github.com/code-corhuila/barber-saas-notifications-app/pull/6) | [#7](https://github.com/code-corhuila/barber-saas-notifications-app/pull/7) | [#8](https://github.com/code-corhuila/barber-saas-notifications-app/pull/8) | [#9](https://github.com/code-corhuila/barber-saas-notifications-app/pull/9) open | 9 | yes | yes |
-  | notifications-db | [#5](https://github.com/code-corhuila/barber-saas-notifications-db/pull/5) | [#6](https://github.com/code-corhuila/barber-saas-notifications-db/pull/6) | [#7](https://github.com/code-corhuila/barber-saas-notifications-db/pull/7) | [#8](https://github.com/code-corhuila/barber-saas-notifications-db/pull/8) open | 15 | yes | yes |
+  | barbershop-api | [#21](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/21) | [#22](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/22) | [#23](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/23) | [#24](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/24) merged | 89 | yes | yes |
+  | barbershop-app | [#15](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/15) | [#16](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/16) | [#17](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/17) | [#18](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/18) merged | 45 | yes | yes |
+  | barbershop-db | [#8](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/8) | [#9](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/9) | [#10](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/10) | [#11](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/11) merged | 22 | yes | yes |
+  | schedule-api | [#19](https://github.com/code-corhuila/barber-saas-schedule-api/pull/19) | [#20](https://github.com/code-corhuila/barber-saas-schedule-api/pull/20) | [#21](https://github.com/code-corhuila/barber-saas-schedule-api/pull/21) | [#22](https://github.com/code-corhuila/barber-saas-schedule-api/pull/22) merged | 75 | yes | yes |
+  | schedule-app | [#13](https://github.com/code-corhuila/barber-saas-schedule-app/pull/13) | [#14](https://github.com/code-corhuila/barber-saas-schedule-app/pull/14) | [#15](https://github.com/code-corhuila/barber-saas-schedule-app/pull/15) | [#16](https://github.com/code-corhuila/barber-saas-schedule-app/pull/16) merged | 38 | yes | yes |
+  | schedule-db | [#7](https://github.com/code-corhuila/barber-saas-schedule-db/pull/7) | [#8](https://github.com/code-corhuila/barber-saas-schedule-db/pull/8) | [#9](https://github.com/code-corhuila/barber-saas-schedule-db/pull/9) | [#10](https://github.com/code-corhuila/barber-saas-schedule-db/pull/10) merged | 20 | yes | yes |
+  | notifications-api | [#12](https://github.com/code-corhuila/barber-saas-notifications-api/pull/12) | [#13](https://github.com/code-corhuila/barber-saas-notifications-api/pull/13) | [#14](https://github.com/code-corhuila/barber-saas-notifications-api/pull/14) | [#15](https://github.com/code-corhuila/barber-saas-notifications-api/pull/15) merged | 46 | yes | yes |
+  | notifications-app | [#6](https://github.com/code-corhuila/barber-saas-notifications-app/pull/6) | [#7](https://github.com/code-corhuila/barber-saas-notifications-app/pull/7) | [#8](https://github.com/code-corhuila/barber-saas-notifications-app/pull/8) | [#9](https://github.com/code-corhuila/barber-saas-notifications-app/pull/9) merged | 9 | yes | yes |
+  | notifications-db | [#5](https://github.com/code-corhuila/barber-saas-notifications-db/pull/5) | [#6](https://github.com/code-corhuila/barber-saas-notifications-db/pull/6) | [#7](https://github.com/code-corhuila/barber-saas-notifications-db/pull/7) | [#8](https://github.com/code-corhuila/barber-saas-notifications-db/pull/8) merged | 15 | yes | yes |
 
   - **Checked after the merges, on the remote.** Every commit of `qa` and of `release.2.0.0`
     above `main` carries `(cherry picked from commit …)`. The cited sha is an ancestor of
@@ -92,6 +96,13 @@
     commit, and develop, qa and the release have the same tree. `notifications-api` `develop` is
     now 2 commits ahead, which is #16, merged after the cut.
 - **Earlier this week (2026-10-05 → 07).**
+  - Repository-rename and header chores, one small pull request per repository (Refs
+    [`#59`](https://github.com/code-corhuila/barber-saas-docs/issues/59)):
+    - `chore: use the new repository name barber-saas-infra-postgres`: [`barbershop-api#18`](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/18), [`barbershop-app#12`](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/12), [`barbershop-db#6`](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/6), [`schedule-api#17`](https://github.com/code-corhuila/barber-saas-schedule-api/pull/17), [`schedule-app#9`](https://github.com/code-corhuila/barber-saas-schedule-app/pull/9), [`schedule-db#5`](https://github.com/code-corhuila/barber-saas-schedule-db/pull/5).
+    - `chore: Barber Saas header and the barber-saas-infra-postgres name`: [`barbershop-api#19`](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/19), [`barbershop-app#14`](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/14), [`barbershop-db#7`](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/7), [`notifications-api#2`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/2), [`notifications-app#2`](https://github.com/code-corhuila/barber-saas-notifications-app/pull/2), [`notifications-db#2`](https://github.com/code-corhuila/barber-saas-notifications-db/pull/2), [`schedule-api#18`](https://github.com/code-corhuila/barber-saas-schedule-api/pull/18), [`schedule-app#11`](https://github.com/code-corhuila/barber-saas-schedule-app/pull/11), [`schedule-db#6`](https://github.com/code-corhuila/barber-saas-schedule-db/pull/6).
+  - [`notifications-app#3`](https://github.com/code-corhuila/barber-saas-notifications-app/pull/3)
+    (the whole inbox in one pull request, 752 lines without tests) was closed and split into #4
+    (CI and templates) and #5 (the inbox screen), to stay within 400 lines (9.2).
   - Built the `notifications` domain with the tests first:
     - `notifications-db` #3: collections, indexes and roles in MongoDB.
     - `notifications-api` #3–#9: inbox core, HTTP with RS256, envelope and correlation id,
@@ -108,9 +119,8 @@
     - UI fixes in both apps (#13, `schedule-app` #10).
 
 ## 3. Blockers and risks
-- **Release 2.0.0 is not in `main` yet.** The 9 release pull requests need the teacher's
-  approval (norm 9.5). After the merge, tag `v2.0.0` on `main` (norm 11.5); the CHANGELOG link
-  already points to that tag.
+- ~~Release 2.0.0 is not in `main` yet~~: solved on 2026-10-09. The 9 release pull requests were
+  approved by `ariel5253` and merged, and `v2.0.0` is tagged on `main` (norm 11.5).
 - **Pull request size (norm 9.2, 400 lines).**
   - My development pull requests this week are within the limit; #16, for example, has 5 lines
     outside tests.
@@ -140,7 +150,8 @@
   compile. I did not touch it; the services of my stories ran.
 
 ## 4. Plan for next week
-- Get the 9 release pull requests approved and tag `v2.0.0` in each repository (11.5).
+- ~~Get the 9 release pull requests approved and tag `v2.0.0` in each repository (11.5)~~: done on
+  2026-10-09.
 - Promote `notifications-api` #16 to `qa`, as one story in one promotion pull request within 400
   lines.
 - `notifications-app`: push registration (device token) from the Capacitor app, once
@@ -182,7 +193,7 @@
 - [`notifications-api#10`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/10), [`#11`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/11): the review answers ("What was done with each finding") are in the PR comments
 - [`notifications-api#16`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/16): expired reset code ignored
 - [`infra-postgres#29`](https://github.com/code-corhuila/barber-saas-infra-postgres/pull/29): `SMTP_*` names in the env examples
-- Release pull requests to `main` (each with the norm 9.2 note in its comments): [`barbershop-api#24`](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/24), [`barbershop-app#18`](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/18), [`barbershop-db#11`](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/11), [`schedule-api#22`](https://github.com/code-corhuila/barber-saas-schedule-api/pull/22), [`schedule-app#16`](https://github.com/code-corhuila/barber-saas-schedule-app/pull/16), [`schedule-db#10`](https://github.com/code-corhuila/barber-saas-schedule-db/pull/10), [`notifications-api#15`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/15), [`notifications-app#9`](https://github.com/code-corhuila/barber-saas-notifications-app/pull/9), [`notifications-db#8`](https://github.com/code-corhuila/barber-saas-notifications-db/pull/8)
+- Release pull requests to `main`, approved and merged (each with the norm 9.2 note in its comments): [`barbershop-api#24`](https://github.com/code-corhuila/barber-saas-barbershop-api/pull/24), [`barbershop-app#18`](https://github.com/code-corhuila/barber-saas-barbershop-app/pull/18), [`barbershop-db#11`](https://github.com/code-corhuila/barber-saas-barbershop-db/pull/11), [`schedule-api#22`](https://github.com/code-corhuila/barber-saas-schedule-api/pull/22), [`schedule-app#16`](https://github.com/code-corhuila/barber-saas-schedule-app/pull/16), [`schedule-db#10`](https://github.com/code-corhuila/barber-saas-schedule-db/pull/10), [`notifications-api#15`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/15), [`notifications-app#9`](https://github.com/code-corhuila/barber-saas-notifications-app/pull/9), [`notifications-db#8`](https://github.com/code-corhuila/barber-saas-notifications-db/pull/8)
 - `CHANGELOG.md` on `develop` of each of the 9 repositories: section `[2.0.0] - 2026-10-08`
 
 ## 7. Status against the rubric (checkpoint 2)
@@ -192,7 +203,7 @@ from 2026-09-28, so it is not reused here and no point estimate is invented from
 | Dimension | What was checked | Result |
 |---|---|---|
 | 3 — Promotion and traceability | merge commits in `qa` and the release; `-x` trail on every promoted commit; cited sha exists in its source branch (15.3, 15.4, 15.6) | 0 merges; 359 promoted commits, all with a valid trail |
-| 6 — Release | release cut from `main`, filled from `qa`, PR with stories, trail, scope, deployment and rollback (11.1–11.3) | done; merge and tag pending the teacher |
+| 6 — Release | release cut from `main`, filled from `qa`, PR with stories, trail, scope, deployment and rollback (11.1–11.3) | done: approved by `ariel5253`, merged to `main` and tagged `v2.0.0` |
 | 5 — Data isolation | migrations only in the `-db`, no other domain's database (5.2.1, 15.7) | the `-api` and `-app` repos have no migration files; cross-domain reads go through APIs |
 | 2 / 7 — Branches and governance | prefixes, PR per environment, review answers (6.3, 9.9) | met, except the `qa/` prefix (impossible next to `qa`) and the 400-line limit on promotions |
 | Grave faults (13) | merge between permanent branches, missing `-x`, fake trail, secrets, history rewrite, CODEOWNERS | **none**, with the `CODEOWNERS` comment line declared in Blockers |

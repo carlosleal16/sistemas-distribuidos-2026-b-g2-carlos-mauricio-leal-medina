@@ -8,37 +8,50 @@
 - FULL_NAME: Carlos Mauricio Leal Medina
 - GITHUB_USER: carlosleal16
 - TEAM: Barberssas
-- SPRINT_GOAL: Mantener sincronizado el tracking documental del ecosistema (DOCS) mientras arranca la implementación real en CODE.
+- SPRINT_GOAL: Keep the documentation tracking of the ecosystem (DOCS) in sync while the real implementation starts in CODE.
 <!-- CONFIG-END -->
 
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| N/A | No se trabajó ninguna HU de producto esta semana; el único cambio fue documentación de gobernanza/tracking en DOCS (no mapea a una HU de `04-requirements`) | done | https://github.com/code-corhuila/barber-saas-docs/commit/3f4822d785eb134433f8aeecd45951965dcd4a4e |
+| N/A | No product story was worked this week; the only change was governance/tracking documentation in DOCS, which does not map to a story of `04-requirements` | done | [PR #15](https://github.com/code-corhuila/barber-saas-docs/pull/15) (commit [`3f4822d`](https://github.com/code-corhuila/barber-saas-docs/commit/3f4822d785eb134433f8aeecd45951965dcd4a4e)) |
 
 ## 2. My individual contribution
-- `docs(archive): index MVP cadence and weekly-tracking pointers` (DOCS, commit `3f4822d`, 2026-09-17): agregué `99-archive/mvp-weekly-index.md` para consolidar en un solo lugar dónde viven los hitos del MVP y el tracking académico semanal, sin duplicar contenido que ya es dueño otro documento. 39 líneas agregadas, 1 archivo.
-- Rama `docs/archive-mvp-weekly-index`, aún no mergeada a `main` de DOCS a la fecha de este reporte — por eso el estado real de esa contribución es "en PR", no "cerrada".
-- Sin commits propios en WEEKLY ni en CODE durante la ventana 2026-09-14 a 2026-09-17 (verificado con `git log --since/--until` en los tres repos).
+- **[`barber-saas-docs#15`](https://github.com/code-corhuila/barber-saas-docs/pull/15): `docs(archive): index MVP cadence and weekly-tracking pointers`**
+  (branch `docs/archive-mvp-weekly-index`, commit `3f4822d`, 2026-09-17, 1 file, +39).
+  - Added `99-archive/mvp-weekly-index.md`, which gathers in one place where the MVP milestones
+    and the weekly academic tracking live, without duplicating content owned by another document.
+  - My first pull request in the project. It was approved by `ariel5253` and by a teammate.
+  - On 2026-09-28 the team closed it without merging: it had been a test of the pull request
+    flow and its content was not needed on `main` (comment on the PR).
+- No commits of mine in WEEKLY or CODE between 2026-09-14 and 2026-09-17 (checked with
+  `git log --since/--until` in the three repositories).
 
 ## 3. Blockers and risks
-- **CODE (`barber-saas`) sigue sin código real.** Solo tiene `README.md`; los subproyectos backend (Java/Spring Boot) y móvil (Expo) descritos en la documentación todavía no existen. Sin esto, no hay HUs de producto que reportar con evidencia real.
-- **SPEC-007 sigue bloqueado**: falta integrar al mapa del ecosistema los repos propios de Juan Pablo Barrero y de mí (Carlos Leal) — los remotos no están confirmados en `_ecosistema/SPEC-PLAN-PROMPT.md`.
-- Riesgo de reportar HUs sin evidencia enlazable si no se prioriza empezar la implementación en CODE antes de la semana 8.
+- **CODE (`barber-saas`) still has no real code.** It only has a `README.md`; the backend
+  (Java/Spring Boot) and mobile (Expo) subprojects described in the documentation do not exist
+  yet. Without them there are no product stories to report with real evidence.
+- **SPEC-007 is still blocked**: the repositories of Juan Pablo Borrero and mine are not yet in
+  the ecosystem map (their remotes are not confirmed in `_ecosistema/SPEC-PLAN-PROMPT.md`).
+- Risk of reporting stories without linkable evidence if the implementation in CODE does not
+  start before week 08.
 
 ## 4. Plan for next week
-- Resolver SPEC-007 (integrar repos de Juan Pablo y propio al mapa del ecosistema) aportando las URLs de remoto pendientes.
-- Arrancar la implementación real en CODE (walking skeleton del backend o del móvil) para tener HUs de producto verificables en la próxima entrega.
-- Mergear a `main` la rama `docs/archive-mvp-weekly-index` de DOCS (pendiente de PR/aprobación del docente vía CODEOWNERS).
+- Solve SPEC-007 (add Juan Pablo's repositories and mine to the ecosystem map) with the missing
+  remote URLs.
+- Start the real implementation in CODE (walking skeleton of the backend or the mobile app) so
+  the next report has verifiable product stories.
+- Get the `docs/archive-mvp-weekly-index` pull request reviewed by the teacher (CODEOWNERS).
 
 ## 5. Compliance self-check
-- [x] Conventional Commits - `type(scope): summary` (el commit de la semana sigue el formato)
-- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...) — N/A, no hubo trabajo de código esta semana
-- [ ] Testable acceptance criteria — N/A, no hubo HU de producto esta semana
-- [ ] Tests added/updated (unit / integration) — N/A, no hubo código esta semana
-- [ ] DDD / hexagonal boundaries respected (domain has no I/O) — N/A, CODE todavía no tiene código
-- [x] No secrets; config via environment variables (sin secretos en el único cambio de la semana)
+- [x] Conventional Commits - `type(scope): summary` (the week's commit follows the format)
+- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...): N/A, there was no code work this week; the documentation change went through `docs/…` → PR #15
+- [ ] Testable acceptance criteria: N/A, no product story this week
+- [ ] Tests added/updated (unit / integration): N/A, no code this week
+- [ ] DDD / hexagonal boundaries respected (domain has no I/O): N/A, CODE has no code yet
+- [x] No secrets; config via environment variables (no secrets in the week's only change)
 
 ## 6. Evidence links
+- [`barber-saas-docs#15`](https://github.com/code-corhuila/barber-saas-docs/pull/15): index MVP cadence and weekly-tracking pointers (approved, then closed by the team as a test pull request)
 - https://github.com/code-corhuila/barber-saas-docs/commit/3f4822d785eb134433f8aeecd45951965dcd4a4e
 - https://github.com/code-corhuila/barber-saas-docs/tree/docs/archive-mvp-weekly-index
