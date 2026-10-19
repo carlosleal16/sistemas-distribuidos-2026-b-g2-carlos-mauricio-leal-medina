@@ -47,8 +47,16 @@ public class TraceContextFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
         } finally {
             long durationMs = (System.nanoTime() - start) / 1_000_000;
-            log.info("http.request.completed", request.getMethod() + " " + request.getRequestURI(),
-                    Map.of("http_status", response.getStatus(), "duration_ms", durationMs));
+            int status = response.getStatus();
+            String message = request.getMethod() + " " + request.getRequestURI();
+            Map<String, Object> fields = Map.of("http_status", status, "duration_ms", durationMs);
+            if (status >= 500) {
+                log.error("http.request.completed", message, fields);
+            } else if (status >= 400) {
+                log.warn("http.request.completed", message, fields);
+            } else {
+                log.info("http.request.completed", message, fields);
+            }
             RequestContext.clear();
         }
     }
