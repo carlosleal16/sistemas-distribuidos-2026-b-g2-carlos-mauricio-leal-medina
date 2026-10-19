@@ -15,6 +15,7 @@
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
 | HU-AUTH-002 | As a client, barber or admin who forgot my password, I want a 6-digit code sent to my e-mail, so that I can set a new password without exposing whether my e-mail is registered | doing (Dev). The last fix is in `develop` and still has to be promoted to `qa` | `notifications-api` [#16](https://github.com/code-corhuila/barber-saas-notifications-api/pull/16) (merged 2026-10-09, reported in week 10; commits `3d97edc` test → `d76f7d5` fix). Refs [`barber-saas-docs#6`](https://github.com/code-corhuila/barber-saas-docs/issues/6) |
+| W11-WORKSHOP-D1 | As a student, I want one critical journey of BarberSaaS (book an appointment) mapped, logged, instrumented and measured, so that a failed booking can be followed by one `trace_id` across `appointment-api`, `schedule-api` and `barbershop-api` | done (delivery 1, CP0 to CP4) | CP0 [`3886300`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/3886300); CP1 [`5647432`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/5647432); CP2 [`7f79f7e`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/7f79f7e); CP3 [`cb0c2e9`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/cb0c2e9), [`d8318de`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/d8318de), [`b19b8fc`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/b19b8fc), [`6d473e8`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/6d473e8), [`ce1ec5e`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/ce1ec5e); CP4 [`9c3c097`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/9c3c097). Folder [`11-week/workshop`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/11-week/workshop) |
 | HU-SEC-001 | As the team, we want each service to refuse to start without its required variables and every commit scanned for secrets, so that no service runs half-configured and no secret reaches the remote | doing (partly done in week 09: `.env.example`, `.gitignore`, secrets read from the environment) | No commit this week. Missing: fail-fast validation and the pre-commit secret scan |
 
 > **No new code this week.** Between 2026-10-12 and 2026-10-18 I have no commits, pull requests,
@@ -26,6 +27,13 @@
 > (2026-10-13), which links the `v2.0.0` demo video in `15-project-control/sprint-status.md`.
 
 ## 2. My individual contribution
+- **Week 11 guided workshop, delivery 1 (2026-10-19, in class).** In
+  [`11-week/workshop`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/11-week/workshop): the "book an appointment" journey with
+  its trace map and span tree (CP1, `01-journey.md`), the structured log contract with seven lines
+  of one failed booking (CP2, `02-log-contract.md`), a Spring Boot module for `schedule-api` that
+  reads or creates `traceparent`, writes JSON logs, propagates the trace to `barbershop-api` and
+  exposes two metrics, with a passing test (CP3, `03-instrumentation/`), and the golden-signal
+  catalog of the six services of the journey (CP4, `04-metrics.md`).
 - **Observability session (sessions 1 and 2).** The session covered monitoring vs observability,
   the three pillars (logs, metrics, traces), distributed tracing with one trace id across services,
   structured JSON logs, the golden signals with SLI, SLO and error budget, effective alerts
@@ -72,18 +80,20 @@
   scan.
 
 ## 5. Compliance self-check
-- [ ] Conventional Commits - `type(scope): summary`: no commits in the project repositories this
-      week. The only commit is this delivery in the weekly repository.
+- [x] Conventional Commits - `type(scope): summary`: every workshop commit (CP0 to CP4) follows
+      it. No commits in the project repositories this week.
 - [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...): no pull
       requests this week; the promotion of #16 to `qa` is planned.
 - [x] Testable acceptance criteria: the planned observability story is written with checks that
       can be verified (a JSON line with `correlationId`, a metrics endpoint, a written SLO).
-- [ ] Tests added/updated (unit / integration): none this week.
+- [x] Tests added/updated (unit / integration): `TracePropagationTest` in the CP3 module (the
+      `trace_id` received equals the one sent to `barbershop-api`). None in the project repositories.
 - [x] DDD / hexagonal boundaries respected (domain has no I/O): unchanged. Logging and correlation
       live in the inbound HTTP adapters, not in the domain.
 - [x] No secrets; config via environment variables: unchanged; nothing was committed.
 
 ## 6. Evidence links
+- Workshop delivery 1: [`11-week/workshop`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/11-week/workshop)
 - Session infographic: [`week11-session1-2.jpg`](week11-session1-2.jpg)
 - [`notifications-api#16`](https://github.com/code-corhuila/barber-saas-notifications-api/pull/16): last fix of HU-AUTH-002, merged to `develop` on 2026-10-09, pending promotion
 - Correlation id in my services: [`notifications-api` `correlation.py`](https://github.com/code-corhuila/barber-saas-notifications-api/blob/develop/src/notifications/adapter/inbound/http/correlation.py), [`barbershop-api` `CorrelationFilter.java`](https://github.com/code-corhuila/barber-saas-barbershop-api/blob/develop/barbershop-adapters/src/main/java/co/edu/corhuila/barbersaas/barbershop/adapter/in/http/CorrelationFilter.java), [`schedule-api` `CorrelationFilter.java`](https://github.com/code-corhuila/barber-saas-schedule-api/blob/develop/schedule-adapters/src/main/java/co/edu/corhuila/barbersaas/schedule/adapter/in/http/CorrelationFilter.java)
