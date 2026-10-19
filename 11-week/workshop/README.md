@@ -6,7 +6,7 @@
 - TEAM: Barberssas
 - DOCS_REPO: https://github.com/code-corhuila/barber-saas-docs
 - REFLECTION_DOC: https://docs.google.com/document/d/1J74zaHFKBA1lAYbcK-ydkZlN8WuNln6aUWjgB0KXV6U/edit?usp=sharing
-- JOURNEY: (written in CP1)
+- JOURNEY: Book an appointment (POST /api/v1/appointments: api-gateway, appointment-api, barbershop-api, schedule-api, worker, loyalty-api)
 <!-- CONFIG-END -->
 
 ## Scope
