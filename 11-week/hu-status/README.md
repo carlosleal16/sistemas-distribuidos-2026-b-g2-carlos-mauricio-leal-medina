@@ -16,6 +16,7 @@
 |---|---|---|---|
 | HU-AUTH-002 | As a client, barber or admin who forgot my password, I want a 6-digit code sent to my e-mail, so that I can set a new password without exposing whether my e-mail is registered | doing (Dev). The last fix is in `develop` and still has to be promoted to `qa` | `notifications-api` [#16](https://github.com/code-corhuila/barber-saas-notifications-api/pull/16) (merged 2026-10-09, reported in week 10; commits `3d97edc` test → `d76f7d5` fix). Refs [`barber-saas-docs#6`](https://github.com/code-corhuila/barber-saas-docs/issues/6) |
 | W11-WORKSHOP-D1 | As a student, I want one critical journey of BarberSaaS (book an appointment) mapped, logged, instrumented and measured, so that a failed booking can be followed by one `trace_id` across `appointment-api`, `schedule-api` and `barbershop-api` | done (delivery 1, CP0 to CP4) | CP0 [`3886300`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/3886300); CP1 [`5647432`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/5647432); CP2 [`7f79f7e`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/7f79f7e); CP3 [`cb0c2e9`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/cb0c2e9), [`d8318de`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/d8318de), [`b19b8fc`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/b19b8fc), [`6d473e8`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/6d473e8), [`ce1ec5e`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/ce1ec5e); CP4 [`9c3c097`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/9c3c097). Folder [`11-week/workshop`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/11-week/workshop) |
+| W11-WORKSHOP-D2 | As a student, I want SLOs, burn-rate alerts, a runbook and an incident drill for the "book an appointment" journey, so that the team knows how much failure the clients accept and what to do when `schedule-api` slows down | done (delivery 2, CP6 to CP10) | CP6 [`71f5da9`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/71f5da9); CP7 [`32bac65`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/32bac65); CP8 [`3b741fa`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/3b741fa); CP9 [`4e29a70`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/4e29a70). Files `05-slo.md`, `06-alerts.yml`, `06-alert-policy.md`, `07-runbook.md`, `08-incident.md` in [`11-week/workshop`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/11-week/workshop) |
 | HU-SEC-001 | As the team, we want each service to refuse to start without its required variables and every commit scanned for secrets, so that no service runs half-configured and no secret reaches the remote | doing (partly done in week 09: `.env.example`, `.gitignore`, secrets read from the environment) | No commit this week. Missing: fail-fast validation and the pre-commit secret scan |
 
 > **No new code this week.** Between 2026-10-12 and 2026-10-18 I have no commits, pull requests,
@@ -27,6 +28,13 @@
 > (2026-10-13), which links the `v2.0.0` demo video in `15-project-control/sprint-status.md`.
 
 ## 2. My individual contribution
+- **Week 11 guided workshop, delivery 2 (2026-10-19, take-home).** Three SLOs with their error
+  budget and policy, based on the 50-barbershop target of `03-product/vision.md` and NFR-010
+  (CP6, `05-slo.md`); fast and slow burn-rate rules for the booking SLO with their budget math
+  (CP7, `06-alerts.yml`, `06-alert-policy.md`); the runbook of the fast alert with the
+  mitigations our Docker Compose deployment supports (CP8, `07-runbook.md`); and a drill where
+  `schedule-api` answers in 3 s for 25 % of the requests, with its postmortem and three user
+  stories (CP9, `08-incident.md`).
 - **Week 11 guided workshop, delivery 1 (2026-10-19, in class).** In
   [`11-week/workshop`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/11-week/workshop): the "book an appointment" journey with
   its trace map and span tree (CP1, `01-journey.md`), the structured log contract with seven lines
@@ -76,6 +84,9 @@
   `barbershop-api` and `schedule-api`, latency and error metrics, one SLO per service (e.g.
   availability of the booking slots in `schedule-api`) and a short runbook in each README.
 - Start with the JSON logs of the Java services, test first, since they are the smallest change.
+- Open the three action items of the CP9 postmortem as issues in `barber-saas-docs`: release the
+  database connection before the HTTP calls of `getAvailability`, two replicas of `schedule-api`,
+  and a circuit breaker in `appointment-api` towards `schedule-api`.
 - HU-SEC-001 in my services: fail-fast validation of required variables and a pre-commit secret
   scan.
 
