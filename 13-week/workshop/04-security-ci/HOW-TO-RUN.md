@@ -43,6 +43,35 @@ mvn -B -pl schedule-app -am test -Dtest=WeeklyScheduleAuthorizationHttpTest \
 The test extends `HttpTest` of `schedule-app`, so it signs its tokens with the same throwaway RS256
 key pair that the other HTTP tests use.
 
+## Real run (CP8)
+
+Run on 2026-10-30 against `barber-saas-schedule-api` at `4cfd95e` (release 2.0.0), with OpenJDK
+21.0.11 and Apache Maven 3.9.15. The test file was copied in for the run and removed afterwards.
+
+```text
+[INFO] Running co.edu.corhuila.barbersaas.schedule.app.WeeklyScheduleAuthorizationHttpTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.399 s -- in co.edu.corhuila.barbersaas.schedule.app.WeeklyScheduleAuthorizationHttpTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Reactor Summary for schedule 0.1.0:
+[INFO] schedule ........................................... SUCCESS [  0.008 s]
+[INFO] schedule-core ...................................... SUCCESS [  1.241 s]
+[INFO] schedule-adapters .................................. SUCCESS [  0.513 s]
+[INFO] schedule-app ....................................... SUCCESS [  9.991 s]
+[INFO] BUILD SUCCESS
+[INFO] Total time:  12.473 s
+[INFO] Finished at: 2026-10-30T15:05:23-05:00
+```
+
+## Workflow validation (CP8)
+
+- YAML parsed with PyYAML: valid. Trigger `pull_request` on `develop`, `qa`, `main`;
+  `permissions: contents: read`; three jobs (`secret-scan` 2 steps, `dependency-audit` 3 steps,
+  `authz-tests` 3 steps), every step has exactly one of `uses` or `run`.
+- The pinned actions exist: `actions/checkout@v6` and `actions/setup-java@v5` resolve to tags in
+  their repositories.
+- actionlint 1.7.12 was not run: Docker Desktop was stopped on this machine. Command to run it:
+  `docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12 security.yml`.
+
 ## Workflow notes
 
 - gitleaks runs as its container (`zricethezav/gitleaks:v8.30.1`) because `gitleaks-action`
