@@ -14,9 +14,9 @@
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| W13-WORKSHOP-D1 | As a student, I want a STRIDE analysis of the `api-gateway` → `barbershop-api` / `schedule-api` boundary turned into security stories and CI gates, so that the risks of my services are visible and testable | doing (progress delivery CP0 to CP5 done; CP6 to CP9 until 2026-10-30) | CP0 [`3d630d1`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/3d630d1); CP1 [`2f9dfbb`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/2f9dfbb); CP2 [`barber-saas-docs#161`](https://github.com/code-corhuila/barber-saas-docs/pull/161), [`bc35d77`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/bc35d77); CP3 [`8877825`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/8877825); CP4 [`b92a60f`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/b92a60f), [`16c10c8`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/16c10c8) |
-| [#163](https://github.com/code-corhuila/barber-saas-docs/issues/163) | [security] An owner cannot change the services or schedules of another barbershop (E, risk 6, P1) | todo (backlog; negative test written in CP4) | [`04-security-ci`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/13-week/workshop/04-security-ci) |
-| [#164](https://github.com/code-corhuila/barber-saas-docs/issues/164) | [security] barbershop-api and schedule-api accept only app tokens that come through the gateway (S, risk 6, P1) | todo (backlog) | Refs #161 |
+| W13-WORKSHOP-D1 | As a student, I want a STRIDE analysis of the `api-gateway` → `barbershop-api` / `schedule-api` boundary turned into security stories and CI gates, so that the risks of my services are visible and testable | done (progress delivery CP0 to CP5 on 2026-10-29; final delivery CP6 to CP9 on 2026-10-30) | CP0 [`3d630d1`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/3d630d1); CP1 [`2f9dfbb`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/2f9dfbb); CP2 [`barber-saas-docs#161`](https://github.com/code-corhuila/barber-saas-docs/pull/161), [`bc35d77`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/bc35d77); CP3 [`8877825`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/8877825); CP4 [`b92a60f`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/b92a60f), [`16c10c8`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/16c10c8); CP6 [`barber-saas-docs@2cce556`](https://github.com/code-corhuila/barber-saas-docs/commit/2cce556) + [reply](https://github.com/code-corhuila/barber-saas-docs/pull/161#issuecomment-6532109719); CP7 [`e7bf561`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/e7bf561); CP8 [`fdbef10`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/commit/fdbef10) |
+| [#163](https://github.com/code-corhuila/barber-saas-docs/issues/163) | [security] An owner cannot change the services or schedules of another barbershop (E, risk 6, P1) | todo (backlog; criterion 1 already met by `CatalogHttpTest`; criterion 2 test written and passing, PR to `schedule-api` pending) | [`04-security-ci`](https://github.com/carlosleal16/sistemas-distribuidos-2026-b-g2-carlos-mauricio-leal-medina/tree/main/13-week/workshop/04-security-ci) |
+| [#164](https://github.com/code-corhuila/barber-saas-docs/issues/164) | [security] barbershop-api and schedule-api split user and service tokens by route (S, risk 6, P1) | todo (backlog; refined after review, related to #155 and #156) | Refs #161 |
 | [#165](https://github.com/code-corhuila/barber-saas-docs/issues/165) | [security] The public barber list does not expose the barber's account id (I, risk 6, P1) | todo (backlog) | Refs #161 |
 
 ## 2. My individual contribution
@@ -26,14 +26,20 @@
 - **CP3:** three security stories (#163, #164, #165), labels `security` + `P1`, each with an automated acceptance criterion and the book page.
 - **CP4:** `security.yml` (gitleaks, OWASP dependency-check, authorization tests) and `WeeklyScheduleAuthorizationHttpTest` for `PUT /api/v1/barber-schedules/{barberId}`: another barbershop's owner gets 404, a barber or client 403, no token 401. I ran it against `barber-saas-schedule-api`: `Tests run: 3, Failures: 0, Errors: 0`.
 - **CP5:** review of `barber-saas-docs#154` (JUANDAX233), [row I](https://github.com/code-corhuila/barber-saas-docs/pull/154#discussion_r4413632481): `identity-auth-api` is a missing producer and its `PasswordResetRequested` envelope carries the e-mail and the reset code.
+- **CP6:** answered @Pipecerquera's review on #161. Row S no longer isolates port 8080 (other services call it legitimately); it splits `/api/v1/**` (user tokens with `aud`) from `/internal/v1/**` (service tokens). Row D links #155. Row E corrected: `barbershop-api` already had the cross-tenant test for services, the gap was `schedule-api`.
+- **CP7:** #163 marks criterion 1 as met and points to the schedule test; #164 has a new title, story and route-split criterion, related to #155 and #156.
+- **CP8:** ran the test again (`Tests run: 3, Failures: 0, Errors: 0`, `BUILD SUCCESS`, 15:05) and recorded it in `HOW-TO-RUN.md`; `security.yml` parsed and checked (actionlint not run, Docker was stopped).
+- **CP9:** implementation plan written by hand in the reflection document.
 
 ## 3. Blockers and risks
-- The STRIDE row E says no HTTP test covers the cross-tenant write; `barbershop-api` already has `CatalogHttpTest.another_barbershop_never_sees_or_edits_the_service`. The gap is only in `schedule-api`. I correct the row and story #163 in CP6.
-- The three stories are not on the team Project yet: my `gh` token lacks the `project` scope.
+- The issues #163, #164 and #165 still have to be added to the team Project board by hand: my `gh` token has no `project` scope.
+- The final-delivery pushes all happened on 2026-10-30; I had no push on Thursday after class.
+- #164 needs `identity-auth-api` to issue an `aud` claim, which belongs to another domain owner.
 
 ## 4. Plan for next week
-- CP6 to CP9 before 2026-10-30 23:59: answer the review on #161, refine the stories, record the real test output, and write the implementation plan in the reflection document.
-- Propose `WeeklyScheduleAuthorizationHttpTest` as a pull request to `barber-saas-schedule-api` (`develop`), referencing #163.
+- Open a PR to `barber-saas-schedule-api` (`develop`) with `WeeklyScheduleAuthorizationHttpTest` and `security.yml`, referencing #163.
+- Change the contract first (`PublicBarber` in `barbershop-service.yaml`) and then `barbershop-api` for #165.
+- Agree the `aud` claim with the owner of `identity-auth-api` and the per-`sub` quota with #155 before starting #164.
 
 ## 5. Compliance self-check
 - [x] Conventional Commits - `type(scope): summary`: every workshop commit (`docs(w13)`, `docs(security)`, `ci(w13)`).
