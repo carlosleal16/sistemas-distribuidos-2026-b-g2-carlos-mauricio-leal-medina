@@ -10,7 +10,7 @@
 - REFLECTION_DOC: https://docs.google.com/document/d/1oc5ba6eA5cetRJ94wCOSNe-6cDnee1tfcQxKl5_ZA2k/edit?usp=sharing
 - LIBRARY_BOOK: Costas Santos, Jesús. Seguridad informática. 1st ed. Bogotá: Ediciones de la U (Ra-Ma), 2011. Call number 005.8 C838s Ej.1
 - LIBRARY_RECORD_TIME: 2026-10-29 08:40
-- STORIES: https://github.com/code-corhuila/barber-saas-docs/issues/163, https://github.com/code-corhuila/barber-saas-docs/issues/164, https://github.com/code-corhuila/barber-saas-docs/issues/165
+- STORIES: https://github.com/code-corhuila/barber-saas-docs/issues/163 (E, risk 6, P1), https://github.com/code-corhuila/barber-saas-docs/issues/164 (S, risk 6, P1, related to #155 and #156), https://github.com/code-corhuila/barber-saas-docs/issues/165 (I, risk 6, P1)
 <!-- CONFIG-END -->
 
 ## Boundary
