@@ -1,20 +1,18 @@
-# Certification C3 — <Full name>
-
-> Template of the corte 3 certification. Replace every `<...>` with your data and delete this note. The rules are in the guide attached to the c3-certification activity in Moodle. Text left as `<...>` counts as missing.
+# Certification C3 — Carlos Mauricio Leal Medina
 
 ## Cover
 
 | Field | Value |
 |---|---|
-| Full name | <Full name exactly as in Moodle> |
-| GitHub user | <github-user> |
-| Group | <G1 or G2> |
-| Team | <Team name> |
-| Team -docs repository | <https://github.com/code-corhuila/...-docs> |
-| Course | <Exact course name> |
-| Course link | <Course URL> |
-| Start date | <YYYY-MM-DD> |
-| Completion date | <YYYY-MM-DD> |
+| Full name | Carlos Mauricio Leal Medina |
+| GitHub user | carlosleal16 |
+| Group | G2 |
+| Team | Barberssas (BarberSaaS) |
+| Team -docs repository | https://github.com/code-corhuila/barber-saas-docs |
+| Course | HCCDP-Solution Architectures Course (Huawei Talent, Huawei ICT Academy) |
+| Course link | https://e.huawei.com/en/talent/outPage/#/sxz-course/home?courseId=I4bs1u--tD4kL8Fg3clrbgvqnhA |
+| Start date | 2026-10-28 |
+| Completion date | 2026-11-13 |
 
 ## Study log
 
@@ -40,12 +38,14 @@
 
 ## Labs
 
+The course page did not let me open the labs: the lab entries were not available from my Huawei Talent account, so I could not run them and I have no lab screenshots. I did not invent evidence for them.
+
 | Evidence file | Lab name | What I built | What failed first and how I fixed it |
 |---|---|---|---|
-| evidence/15-lab-1.png | <Lab name> | <One sentence> | <One sentence> |
-| evidence/16-lab-2.png | <Lab name> | <One sentence> | <One sentence> |
-| evidence/17-lab-3.png | <Lab name> | <One sentence> | <One sentence> |
-| evidence/18-lab-4.png | <Lab name> | <One sentence> | <One sentence> |
+| Not available | Lab 1 | Not done: the lab was not available from my account. | The lab did not open from the course page. |
+| Not available | Lab 2 | Not done: the lab was not available from my account. | The lab did not open from the course page. |
+| Not available | Lab 3 | Not done: the lab was not available from my account. | The lab did not open from the course page. |
+| Not available | Lab 4 | Not done: the lab was not available from my account. | The lab did not open from the course page. |
 
 ## Final exam
 
@@ -56,4 +56,9 @@
 
 ## Skills summary
 
-<5 to 7 lines in English, first person, naming at least three concrete design techniques from the course.>
+I learned to design a cloud solution from the five principles of the course: reliability, security, performance efficiency, cost and operations.
+For scalability, I now design stateless services so they can scale out horizontally behind a load balancer with Auto Scaling rules driven by a metric and a threshold, and I relieve the database with caching, read/write splitting and sharding.
+For distributed architecture, I use message queues to decouple services, so one slow service does not block the whole request chain.
+For disaster recovery, I start from the RTO and RPO of each data store and choose the pattern that meets them: backup and restore, active-standby or active-active across availability zones or regions.
+For automated deployment, I use a CI/CD pipeline that builds container images once and promotes them through environments with blue-green or canary releases and a tested rollback.
+I applied these ideas to BarberSaaS: its domain services, its schema-per-domain databases and its Docker Compose deployment are the starting point of the target architecture in my design note.
