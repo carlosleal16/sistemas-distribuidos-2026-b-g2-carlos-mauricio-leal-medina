@@ -35,7 +35,8 @@
 | 2026-11-11 | 2.6 | Chapter 12 | evidence/12-chapter-12.png |
 | 2026-11-11 | 3.03 | Chapter 13 | evidence/13-chapter-13.png |
 | 2026-11-12 | 5.9 | Chapter 14 | evidence/14-chapter-14.png |
-| Total | 35.37 | | |
+| 2026-11-13 | 1.48 | Final exam | evidence/19-final-exam.png |
+| Total | 36.85 | | |
 
 ## Labs
 
@@ -48,8 +49,9 @@
 
 ## Final exam
 
-- Score: <score>
-- Date: <YYYY-MM-DD>
+- Score: 88 / 100 (27 of 30 closed-ended questions correct, 63 min 34 s of 90 min), passed
+- Date: 2026-11-13
+- Certificate: certificate.pdf (Certificate of Completion ICT20261114000018, issue date 2026-11-14 in the platform's time zone)
 - Evidence: evidence/19-final-exam.png
 
 ## Skills summary
